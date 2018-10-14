@@ -77,7 +77,8 @@ const scheduledArrivalOf = (stopover) => {
 	return Number.isNaN(arr) ? null : arr
 }
 
-const createFindTrip = (hafasA, hafasB) => {
+
+const createFindLeg = (hafasA, hafasB) => {
 	const findTripInAnotherHafas = async (legA) => {
 		if (!nonEmptyStr(legA.id)) throw new Error('legA.id must be a trip ID.')
 		if (!legA.line) throw new Error('legA.line must be an object.')
@@ -155,4 +156,4 @@ const createFindTrip = (hafasA, hafasB) => {
 	return findTripInAnotherHafas
 }
 
-module.exports = createFindTrip
+module.exports = createFindLeg

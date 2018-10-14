@@ -19,7 +19,27 @@ npm install find-hafas-leg-in-another-hafas
 ## Usage
 
 ```js
-todo
+const createDbHafas = require('db-hafas')
+const createVbbHafas = require('vbb-hafas')
+const createFindLeg = require('find-hafas-leg-in-another-hafas')
+
+const potsdamerPlatz = '8011118'
+const südkreuz = '8011113'
+
+const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
+const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
+const findLegInAnother = createFindLeg(db, vbb)
+
+const res = await db.journeys(potsdamerPlatz, südkreuz, {
+	results: 1, stopovers: true, tickets: false
+})
+const [journey] = res.journeys
+
+const dbLeg = journey.legs.find(leg => leg.line) // find non-walking leg
+console.log('DB leg', dbLeg)
+
+const vbbLeg = findLegInAnother(dbLeg)
+console.log('equivalent VBB leg', leg)
 ```
 
 
