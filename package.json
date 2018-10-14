@@ -19,6 +19,11 @@
 		"node": ">=8"
 	},
 	"dependencies": {
+		"debug": "^4.1.0",
+		"slug": "^0.9.1"
+	},
+	"peerDependencies": {
+		"hafas-client": "^3.4.2"
 	},
 	"devDependencies": {
 		"tap-min": "^1.2.2",
