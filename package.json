@@ -23,13 +23,13 @@
 		"slug": "^0.9.1"
 	},
 	"peerDependencies": {
-		"hafas-client": "^3.4.2"
+		"hafas-client": "^4.4.0"
 	},
 	"devDependencies": {
-		"db-hafas": "^3.0.1",
+		"db-hafas": "^4.0.0",
 		"tap-min": "^1.2.2",
 		"tape": "^4.9.1",
-		"vbb-hafas": "^5.0.1"
+		"vbb-hafas": "^6.0.0"
 	},
 	"scripts": {
 		"test": "env NODE_ENV=dev node test.js | tap-min",

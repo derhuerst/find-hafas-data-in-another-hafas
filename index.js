@@ -35,7 +35,7 @@ const findStopByName = async (hafasB, stopA) => {
 const leadingZeros = /^0+/
 const findStopById = async (hafasB, idA) => {
 	try {
-		const exact = await hafasB.station(idA)
+		const exact = await hafasB.stop(stopA)
 		return exact
 	} catch (err) {
 		if (err && err.isHafasError) return null
