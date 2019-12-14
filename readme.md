@@ -23,13 +23,27 @@ const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
 const createFindLeg = require('find-hafas-leg-in-another-hafas')
 
-const potsdamerPlatz = '8011118'
-const südkreuz = '8011113'
+// Note that, for legs to be matched reliably, you need a more
+// sophisticated normalization function. Use e.g.
+// - https://github.com/derhuerst/tokenize-db-station-name
+// - https://github.com/derhuerst/tokenize-vbb-station-name
+const normalizeName = name => str.toLowerCase().replace(/\s/g, '')
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
-const findLegInAnother = createFindLeg(db, vbb)
 
+const findLegInAnother = createFindLeg({
+	hafas: db,
+	normalizeStopName: normalizeName,
+	normalizeLineName: normalizeName
+}, {
+	hafas: vbb,
+	normalizeStopName: normalizeName,
+	normalizeLineName: normalizeName
+})
+
+const potsdamerPlatz = '8011118'
+const südkreuz = '8011113'
 const res = await db.journeys(potsdamerPlatz, südkreuz, {
 	results: 1, stopovers: true, tickets: false
 })

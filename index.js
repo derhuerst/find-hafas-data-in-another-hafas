@@ -2,12 +2,12 @@
 
 const _distance = require('@turf/distance').default
 const {point} = require('@turf/helpers')
-const without = require('lodash/without')
-const tokenizeDb = require('tokenize-db-station-name')
-const tokenizeVbb = require('tokenize-vbb-station-name')
-const slug = require('slug')
-const stopIds = require('@derhuerst/stable-public-transport-ids/stop')
 const debug = require('debug')('find-db-hafas-trip-in-another-hafas')
+const createMatchStopOrStation = require('./lib/match-stop-or-station')
+const createMatchLineName = require('./lib/match-line-by-name')
+const createMatchStopover = require('./lib/match-stopover')
+const legFromTrip = require('./lib/leg-from-trip')
+const {scheduledDepartureOf, scheduledArrivalOf} = require('./lib/helpers')
 
 const minute = 60 * 1000
 const nonEmptyStr = str => 'string' === typeof str && str.length > 0
@@ -22,171 +22,83 @@ const distance = (lA, lB) => {
 
 // todo: use same `language`
 
-// todo: move to tokenize-db-station-name
-const dbStopwords = [
-	'bahnhof',
-	'berlin',
-	'sbahn',
+const createFindLeg = (A, B) => {
+	const {
+		hafas: hafasA,
+		normalizeStopName: normalizeNameA,
+		normalizeLineName: normalizeLineNameA
+	} = A
+	const {
+		hafas: hafasB,
+		normalizeStopName: normalizeNameB,
+		normalizeLineName: normalizeLineNameB
+	} = B
 
-	'bayern', 'thueringen', 'sachsen', 'anhalt', 'westfalen', 'wuerttemberg', 'oberpfalz', 'schwaben', 'oberbayern', 'holstein', 'braunschweig', 'saalekreis', 'saalekreis', 'niederbayern', 'schwarzwald', 'oldenburg', 'uckermark', 'rheinland', 'oberfranken', 'rheinhessen', 'hessen', 'altmark', 'limesstadt', 'vogtland', 'mecklenburg', 'mittelfranken', 'dillkreis', 'odenwald', 'erzgebirge', 'prignitz', 'oberhessen', 'ostfriesland', 'schleswig', 'unterfranken', 'westerwald', 'dithmarschen',
-	// todo: 'saechsische schweiz', 'thueringer wald', 'schaumburg lippe', 'frankfurt main'
-	'bahnhof',
-	'fernbahnhof'
-]
+	const matchStopOrStation = createMatchStopOrStation(normalizeNameA, normalizeNameB)
+	const matchLineName = createMatchLineName(normalizeLineNameA, normalizeLineNameB)
 
-// todo: move to tokenize-vbb-station-name
-const vbbStopwords = [
-	'bahnhof',
-	'berlin', 'polen',
-	'sbahn', 'ubahn'
-]
+	const matchDep = createMatchStopover(matchStopOrStation, scheduledDepartureOf)
+	const matchArr = createMatchStopover(matchStopOrStation, scheduledArrivalOf)
 
-// todo: pass these in
-const normalizeNameA = str => without(tokenizeDb(str), ...dbStopwords).join(' ')
-const normalizeNameB = str => without(tokenizeVbb(str), ...vbbStopwords).join(' ')
-const normalizeLineNameA = str => slug(str.replace(/\s/g, ''))
-const normalizeLineNameB = normalizeLineNameA
+	const findStopByName = async (hafasB, stopA) => {
+		debug('findStopByName', stopA.id, stopA.name)
 
-const matchStopOrStationByStableId = (stopA) => {
-	const stopAIds = stopIds('db', normalizeNameA)(stopA)
-	return (stopB) => {
-		const stopBIds = stopIds('vbb', normalizeNameB)(stopB)
-		return stopBIds.some(bId => stopAIds.includes(bId))
+		const nearby = await hafasB.nearby(stopA.location, {poi: false})
+		debug('hafasB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
+
+		const matchA = matchStopOrStation(stopA)
+		return nearby.find(matchA) || null
+
+		// todo
+		// const fuzzy = await hafasB.locations(stopA.name, {
+		// 	addresses: false, poi: false
+		// })
 	}
-}
 
-const matchStopOrStationByName = (stopA) => {
-	const stopAName = normalizeNameA(stopA.name)
-	const stationAName = stopA.station ? normalizeNameA(stopA.station.name) : NaN
-	return (stopB) => {
-		const stopBName = normalizeNameB(stopB.name)
-		if (stopBName === stopAName) return true
-		const stationBName = stopB.station ? normalizeNameB(stopB.station.name) : NaN
-		return (
-			stopBName === stationAName ||
-			stationBName === stopAName ||
-			stationBName === stationAName
-		)
-	}
-}
-
-const findStopByName = async (hafasB, stopA) => {
-	debug('findStopByName', stopA.id, stopA.name)
-
-	const nearby = await hafasB.nearby(stopA.location, {poi: false})
-	debug('hafasB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
-
-	const byStableId = matchStopOrStationByStableId(stopA)
-	const byName = matchStopOrStationByName(stopA)
-	return nearby.find(byStableId) || nearby.find(byName) || null
-
-	// todo
-	// const fuzzy = await hafasB.locations(stopA.name, {
-	// 	addresses: false, poi: false
-	// })
-}
-
-const findStopById = async (hafasB, stopA) => {
-	debug('findStopById', stopA.id, stopA.name)
-	try {
-		const exact = await hafasB.stop(stopA)
-		return distance(exact.location, stopA.location) < .2 ? exact : null
-	} catch (err) {
-		if (err && err.isHafasError) return null
-		throw err
-	}
-}
-
-const findStop = async (hafasB, sA) => {
-	debug('findStop', sA.id, sA.name)
-
-	let sB = await findStopById(hafasB, sA)
-	if (sB) {
-		debug('matched by stop ID with', sB.id, sB.name)
-		return sB
-	}
-	if (sA.station) {
-		sB = await findStopById(hafasB, sA.station)
-		if (sB) {
-			debug('matched by station ID', sA.station.id)
-			return sB
-		}
-	}
-	sB = await findStopByName(hafasB, sA)
-	if (sB) {
-		debug('matched by name with', sB.id, sB.name)
-		return sB
-	}
-	if (sA.station) {
-		sB = await findStopByName(hafasB, sA.station)
-		if (sB) {
-			debug('matched by station name with', sB.id, sB.name)
-			return sB
+	const findStopById = async (hafasB, stopA) => {
+		debug('findStopById', stopA.id, stopA.name)
+		try {
+			const exact = await hafasB.stop(stopA)
+			return distance(exact.location, stopA.location) < .2 ? exact : null
+		} catch (err) {
+			if (err && err.isHafasError) return null
+			throw err
 		}
 	}
 
-	debug('not matched :(')
-	return null
-}
+	const findStop = async (hafasB, sA) => {
+		debug('findStop', sA.id, sA.name)
 
-const matchLineName = (lineA, lineB) => {
-	const nameA = normalizeLineNameA(lineA.name)
-	const nameB = normalizeLineNameB(lineB.name)
-	const addNameA = lineA.additionalName ? normalizeLineNameA(lineA.additionalName) : null
-	const addNameB = lineB.additionalName ? normalizeLineNameB(lineB.additionalName) : null
-	return [
-		[nameA, nameB],
-		addNameA ? [addNameA, nameB] : [NaN, NaN],
-		addNameB ? [addNameB, nameA] : [NaN, NaN],
-		addNameA && addNameB ? [addNameA, addNameB] : [NaN, NaN]
-	].some(([a, b]) => a === b)
-}
+		let sB = await findStopById(hafasB, sA)
+		if (sB) {
+			debug('matched by stop ID with', sB.id, sB.name)
+			return sB
+		}
+		if (sA.station) {
+			sB = await findStopById(hafasB, sA.station)
+			if (sB) {
+				debug('matched by station ID', sA.station.id)
+				return sB
+			}
+		}
+		sB = await findStopByName(hafasB, sA)
+		if (sB) {
+			debug('matched by name with', sB.id, sB.name)
+			return sB
+		}
+		if (sA.station) {
+			sB = await findStopByName(hafasB, sA.station)
+			if (sB) {
+				debug('matched by station name with', sB.id, sB.name)
+				return sB
+			}
+		}
 
-const scheduledDepartureOf = (stopover) => {
-	let dep = +new Date(stopover.departure)
-	if (stopover.cancelled) dep = +new Date(stopover.scheduledDeparture)
-	else if (Number.isFinite(stopover.departureDelay)) {
-		dep -= stopover.departureDelay * 1000
+		debug('not matched :(')
+		return null
 	}
-	return Number.isNaN(dep) ? null : dep
-}
-const scheduledArrivalOf = (stopover) => {
-	let arr = +new Date(stopover.arrival)
-	if (stopover.cancelled) arr = +new Date(stopover.scheduledArrival)
-	else if (Number.isFinite(stopover.arrivalDelay)) {
-		arr -= stopover.arrivalDelay * 1000
-	}
-	return Number.isNaN(arr) ? null : arr
-}
 
-const legFromTrip = (trip, fromI, toI) => {
-	const depI = trip.stopovers.findIndex(matchDep)
-	const dep = trip.stopovers[depI]
-	const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArr)
-	const arr = trip.stopovers[arrI]
-
-	return {
-		tripId: trip.id,
-
-		origin: dep.stop,
-		...pick(dep, ['departure', 'scheduledDeparture', 'departureDelay']),
-
-		origin: arr.stop,
-		...pick(arr, ['arrival', 'scheduledArrival', 'arrivalDelay']),
-
-		stopovers: trip.stopovers.slice(depI, arrI + 1),
-
-		...omit(trip, [
-			'id',
-			'origin', 'departure', 'scheduledDeparture', 'departureDelay',
-			'destination', 'arrival', 'scheduledarrival', 'arrivalDelay',
-			'alternatives' // todo: handle them
-		])
-	}
-}
-
-const createFindLeg = (hafasA, hafasB) => {
-	const findTripInAnotherHafas = async (legA) => {
+	const findLegInAnotherHafas = async (legA) => {
 		if (!nonEmptyStr(legA.tripId)) throw new Error('legA.tripId must be a trip ID.')
 		if (!legA.line) throw new Error('legA.line must be an object.')
 		if (!nonEmptyStr(legA.line.name)) {
@@ -211,13 +123,8 @@ const createFindLeg = (hafasA, hafasB) => {
 		const arrA = scheduledArrivalOf(lastStopoverA)
 		if (arrA === null) throw new Error('invalid last(leg.stopovers)')
 
-		const matchStopover = (stopA, depA, scheduledWhen) => (stopoverB) => {
-			if (!matchStopOrStationByName(stopA)(stopoverB.stop)) return false
-			const depB = scheduledWhen(stopoverB)
-			return depB !== null && depB === depA
-		}
-		const matchDep = matchStopover(firstStopA, depA, scheduledDepartureOf)
-		const matchArr = matchStopover(lastStopA, arrA, scheduledArrivalOf)
+		const matchDepA = matchDep(firstStopoverA)
+		const matchArrA = matchDep(lastStopoverA)
 
 		// try to pass the trip ID from HAFAS A into HAFAS B
 		if (hafasB.trip) {
@@ -231,9 +138,9 @@ const createFindLeg = (hafasA, hafasB) => {
 				if (!Array.isArray(tripB.stopovers)) {
 					throw new Error(`HAFAS B didn't return stopovers`)
 				}
-				const firstI = tripB.stopovers.findIndex(matchDep)
+				const firstI = tripB.stopovers.findIndex(matchDepA)
 				if (firstI < 0) throw new Error('first stopover not matched')
-				const lastI = tripB.stopovers.slice(firstI + 1).findIndex(matchArr)
+				const lastI = tripB.stopovers.slice(firstI + 1).findIndex(matchArrA)
 				if (lastI < 0) throw new Error('last stopover not matched')
 
 				// todo: fahrtNr, intermediate stopovers
@@ -268,6 +175,7 @@ const createFindLeg = (hafasA, hafasB) => {
 			remarks: false
 		})
 
+		// todo: parallelize this!
 		for (const dep of deps) {
 			if (!matchLineName(legA.line, dep.line)) {
 				debug('matching by line name failed', legA.line, dep.line)
@@ -283,8 +191,8 @@ const createFindLeg = (hafasA, hafasB) => {
 				debug('matching by trip ID failed:', err)
 			}
 			if (trip) {
-				const depI = trip.stopovers.findIndex(matchDep)
-				const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArr)
+				const depI = trip.stopovers.findIndex(matchDepA)
+				const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArrA)
 				if (depI >= 0 && arrI >= 0) {
 					debug('match by trip ID!', trip.id, trip.line.name)
 					return legFromTrip(trip, depI, arrI)
@@ -301,12 +209,12 @@ const createFindLeg = (hafasA, hafasB) => {
 				const [legB] = transitLegs
 				debug('legB', legB.tripId, legB.line.name)
 
-				const depI = legB.stopovers.findIndex(matchDep)
+				const depI = legB.stopovers.findIndex(matchDepA)
 				if (depI < 0) {
 					debug('first stopover not matched', legB.tripId, legB.line.name)
 					continue
 				}
-				const arrI = legB.stopovers.slice(depI + 1).findIndex(matchArr)
+				const arrI = legB.stopovers.slice(depI + 1).findIndex(matchArrA)
 				if (arrI < 0) {
 					debug('last stopover not matched', legB.tripId, legB.line.name)
 					continue
@@ -319,7 +227,8 @@ const createFindLeg = (hafasA, hafasB) => {
 		debug('no match at all :((')
 		return null
 	}
-	return findTripInAnotherHafas
+
+	return findLegInAnotherHafas
 }
 
 module.exports = createFindLeg
