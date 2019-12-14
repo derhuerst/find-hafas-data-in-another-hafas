@@ -8,6 +8,16 @@
 [![chat with me on Gitter](https://img.shields.io/badge/chat%20with%20me-on%20gitter-512e92.svg)](https://gitter.im/derhuerst)
 [![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
+Public transport providers in Europe often have data about vehicles run by other companies, but it is often outdated or imprecise. Consider these examples:
+
+![sncf.com showing TGV 6631](docs/tgv-6631-sncf.png)
+![bahn.de showing TGV 6631](docs/tgv-6631-db.png)
+
+![bahn.de showing IC 2029](docs/ic-2029-db.png)
+![sncf.com showing IC 2029](docs/ic-2029-sncf.png)
+
+**Let's always get the data about a vehicles from the company that actually run it!** Given a [`leg`](https://github.com/public-transport/friendly-public-transport-format/blob/1.2.1/spec/readme.md#journey) endpoint `A`, you can use this library to fetch more up-to-date data about it from another endpoint `B`.
+
 
 ## Installation
 
@@ -22,6 +32,7 @@ npm install find-hafas-leg-in-another-hafas
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
 const createFindLeg = require('find-hafas-leg-in-another-hafas')
+const mergeLegs = require('find-hafas-leg-in-another-hafas/merge')
 
 // Note that, for legs to be matched reliably, you need a more
 // sophisticated normalization function. Use e.g.
@@ -54,6 +65,9 @@ console.log('DB leg', dbLeg)
 
 const vbbLeg = findLegInAnother(dbLeg)
 console.log('equivalent VBB leg', leg)
+
+const mergedLeg = mergeLegs(dbLeg, vbbLeg, normalizeDbStopName, normalizeVbbStopName)
+console.log('mergedLeg', mergedLeg)
 ```
 
 
