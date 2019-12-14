@@ -19,10 +19,12 @@
 		"node": ">=8"
 	},
 	"dependencies": {
+		"@derhuerst/stable-public-transport-ids": "github:derhuerst/stable-public-transport-ids",
 		"@turf/distance": "^6.0.1",
 		"@turf/helpers": "^6.1.4",
 		"debug": "^4.1.0",
 		"lodash": "^4.17.15",
+		"slug": "^1.1.0",
 		"tokenize-db-station-name": "^2.2.1",
 		"tokenize-vbb-station-name": "^1.0.0"
 	},
@@ -31,7 +33,7 @@
 	},
 	"devDependencies": {
 		"db-hafas": "^4.0.0",
-		"tap-min": "^1.2.2",
+		"tap-min": "^2.0.0",
 		"tape": "^4.9.1",
 		"vbb-hafas": "^6.0.0"
 	},
