@@ -19,8 +19,12 @@
 		"node": ">=8"
 	},
 	"dependencies": {
+		"@turf/distance": "^6.0.1",
+		"@turf/helpers": "^6.1.4",
 		"debug": "^4.1.0",
-		"slug": "^0.9.1"
+		"lodash": "^4.17.15",
+		"tokenize-db-station-name": "^2.2.1",
+		"tokenize-vbb-station-name": "^1.0.0"
 	},
 	"peerDependencies": {
 		"hafas-client": "^4.4.0"
