@@ -18,13 +18,14 @@
 	"bugs": "https://github.com/derhuerst/find-hafas-leg-in-another-hafas/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=8"
+		"node": ">=10"
 	},
 	"dependencies": {
 		"@derhuerst/stable-public-transport-ids": "github:derhuerst/stable-public-transport-ids",
 		"@turf/distance": "^6.0.1",
 		"@turf/helpers": "^6.1.4",
 		"debug": "^4.1.0",
+		"hafas-collect-departures-at": "^2.0.0",
 		"lodash": "^4.17.15",
 		"slug": "^1.1.0",
 		"tokenize-db-station-name": "^2.2.1",

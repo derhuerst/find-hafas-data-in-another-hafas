@@ -3,6 +3,7 @@
 const _distance = require('@turf/distance').default
 const {point} = require('@turf/helpers')
 const debug = require('debug')('find-db-hafas-trip-in-another-hafas')
+const createCollectDeps = require('hafas-collect-departures-at')
 const createMatchStopOrStation = require('./lib/match-stop-or-station')
 const createMatchLineName = require('./lib/match-line-by-name')
 const createMatchStopover = require('./lib/match-stopover')
@@ -169,58 +170,62 @@ const createFindLeg = (A, B) => {
 		debug('lastStopB', lastStopB.id, lastStopB.name)
 
 		// Query departures at firstStopB in direction of lastStopB.
-		const deps = await hafasB.departures(firstStopB.id, {
-			when: depA - minute, duration: 2 * minute,
+		const collectDepsB = createCollectDeps(hafasB.departures, {
 			direction: lastStopB.id,
 			remarks: false
 		})
 
-		// todo: parallelize this!
-		for (const dep of deps) {
-			if (!matchLineName(legA.line, dep.line)) {
-				debug('matching by line name failed', legA.line, dep.line)
-				continue
-			}
-			// todo
-			// if (dep.line.fahrtNr !== legA.line.fahrtNr) continue
+		let iterations = 0
+		for await (const deps of collectDepsB(firstStopB.id, depA - minute)) {
+			if (++iterations >= 3) break;
 
-			let trip
-			try {
-				const trip = await hafasB.trip(dep.tripId, dep.line.name, {stopovers: true})
-			} catch (err) {
-				debug('matching by trip ID failed:', err)
-			}
-			if (trip) {
-				const depI = trip.stopovers.findIndex(matchDepA)
-				const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArrA)
-				if (depI >= 0 && arrI >= 0) {
-					debug('match by trip ID!', trip.id, trip.line.name)
-					return legFromTrip(trip, depI, arrI)
-				}
-			}
-
-			const {journeys} = await hafasB.journeys(firstStopB, lastStopB, {
-				departure: depA, stopovers: true, tickets: false
-				// todo: introduce product mapping, limit products
-			})
-			for (const j of journeys) {
-				const transitLegs = j.legs.filter(l => !l.walking)
-				// if (transitLegs.length > 1) console.error('multiple transit legs', transitLegs) // todo
-				const [legB] = transitLegs
-				debug('legB', legB.tripId, legB.line.name)
-
-				const depI = legB.stopovers.findIndex(matchDepA)
-				if (depI < 0) {
-					debug('first stopover not matched', legB.tripId, legB.line.name)
+			for (const dep of deps) {
+				if (!matchLineName(legA.line, dep.line)) {
+					debug('matching by line name failed', legA.line, dep.line)
 					continue
 				}
-				const arrI = legB.stopovers.slice(depI + 1).findIndex(matchArrA)
-				if (arrI < 0) {
-					debug('last stopover not matched', legB.tripId, legB.line.name)
-					continue
+				// todo
+				// if (dep.line.fahrtNr !== legA.line.fahrtNr) continue
+
+				// todo: parallelize this!
+				let trip
+				try {
+					const trip = await hafasB.trip(dep.tripId, dep.line.name, {stopovers: true})
+				} catch (err) {
+					debug('matching by trip ID failed:', err)
+				}
+				if (trip) {
+					const depI = trip.stopovers.findIndex(matchDepA)
+					const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArrA)
+					if (depI >= 0 && arrI >= 0) {
+						debug('match by trip ID!', trip.id, trip.line.name)
+						return legFromTrip(trip, depI, arrI)
+					}
 				}
 
-				return legB
+				const {journeys} = await hafasB.journeys(firstStopB, lastStopB, {
+					departure: depA, stopovers: true, tickets: false
+					// todo: introduce product mapping, limit products
+				})
+				for (const j of journeys) {
+					const transitLegs = j.legs.filter(l => !l.walking)
+					const [legB] = transitLegs
+					debug('legB candidate', legB.tripId, legB.line.name)
+
+					const depI = legB.stopovers.findIndex(matchDepA)
+					if (depI < 0) {
+						debug('first stopover not matched', legB.tripId, legB.line.name)
+						continue
+					}
+					const arrI = legB.stopovers.slice(depI + 1).findIndex(matchArrA)
+					if (arrI < 0) {
+						debug('last stopover not matched', legB.tripId, legB.line.name)
+						continue
+					}
+
+					debug('matched with', legB.tripId, legB.line.name)
+					return legB
+				}
 			}
 		}
 
