@@ -36,12 +36,10 @@
 	},
 	"devDependencies": {
 		"db-hafas": "^4.0.0",
-		"tap-min": "^2.0.0",
-		"tape": "^4.9.1",
 		"vbb-hafas": "^6.0.0"
 	},
 	"scripts": {
-		"test": "env NODE_ENV=dev node test.js | tap-min",
+		"test": "node test/index.js",
 		"prepublishOnly": "npm test"
 	}
 }

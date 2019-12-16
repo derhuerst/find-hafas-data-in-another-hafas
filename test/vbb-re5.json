@@ -1,0 +1,301 @@
+{
+	"origin": {
+		"type": "stop",
+		"id": "900000100020",
+		"name": "S+U Potsdamer Platz",
+		"location": {
+			"type": "location",
+			"id": "900100020",
+			"latitude": 52.509337,
+			"longitude": 13.376452
+		},
+		"products": {
+			"suburban": true,
+			"subway": false,
+			"tram": false,
+			"bus": false,
+			"ferry": false,
+			"express": false,
+			"regional": true
+		}
+	},
+	"destination": {
+		"type": "stop",
+		"id": "900000058101",
+		"name": "S Südkreuz",
+		"location": {
+			"type": "location",
+			"id": "900058101",
+			"latitude": 52.475465,
+			"longitude": 13.365575
+		},
+		"products": {
+			"suburban": true,
+			"subway": false,
+			"tram": false,
+			"bus": true,
+			"ferry": false,
+			"express": true,
+			"regional": true
+		}
+	},
+	"departure": "2019-12-14T13:22:00+01:00",
+	"arrival": "2019-12-14T13:26:00+01:00",
+	"reachable": true,
+	"departureDelay": 60,
+	"arrivalDelay": 60,
+	"tripId": "1|1830|0|86|14122019",
+	"line": {
+		"type": "line",
+		"id": "re5",
+		"fahrtNr": "28",
+		"name": "RE5",
+		"public": true,
+		"mode": "train",
+		"product": "regional",
+		"operator": {
+			"type": "operator",
+			"id": "db-regio-ag",
+			"name": "DB Regio AG"
+		},
+		"symbol": "RE",
+		"nr": 5,
+		"metro": false,
+		"express": true,
+		"night": false,
+		"color": {
+			"fg": "#fff",
+			"bg": "#063971"
+		}
+	},
+	"direction": "Elsterwerda, Bhf",
+	"arrivalPlatform": "4",
+	"departurePlatform": "2",
+	"stopovers": [
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000100020",
+				"name": "S+U Potsdamer Platz",
+				"location": {
+					"type": "location",
+					"id": "900100020",
+					"latitude": 52.509337,
+					"longitude": 13.376452
+				},
+				"products": {
+					"suburban": true,
+					"subway": false,
+					"tram": false,
+					"bus": false,
+					"ferry": false,
+					"express": false,
+					"regional": true
+				}
+			},
+			"arrival": null,
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"departure": "2019-12-14T13:22:00+01:00",
+			"departureDelay": 60,
+			"departurePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000058101",
+				"name": "S Südkreuz",
+				"location": {
+					"type": "location",
+					"id": "900058101",
+					"latitude": 52.475465,
+					"longitude": 13.365575
+				},
+				"products": {
+					"suburban": true,
+					"subway": false,
+					"tram": false,
+					"bus": true,
+					"ferry": false,
+					"express": true,
+					"regional": true
+				}
+			},
+			"arrival": "2019-12-14T13:26:00+01:00",
+			"arrivalDelay": 60,
+			"arrivalPlatform": null,
+			"departure": null,
+			"departureDelay": null,
+			"departurePlatform": null
+		}
+	],
+	"remarks": [
+		{
+			"type": "hint",
+			"code": "FB",
+			"text": "Bicycle conveyance"
+		},
+		{
+			"type": "hint",
+			"code": "oy",
+			"text": "Fahrradmitnahme leicht gemacht: <a href=\"http://www.vbb.de/radimregio\">www.vbb.de/radimregio</a>"
+		},
+		{
+			"type": "hint",
+			"code": "ZM",
+			"text": "Boarding aid in the middle section of the train"
+		}
+	],
+	"cycle": {
+		"min": 420,
+		"max": 1380,
+		"nr": 9
+	},
+	"alternatives": [
+		{
+			"tripId": "1|1538|1|86|14122019",
+			"line": {
+				"type": "line",
+				"id": "re3",
+				"fahrtNr": "572",
+				"name": "RE3",
+				"public": true,
+				"mode": "train",
+				"product": "regional",
+				"operator": {
+					"type": "operator",
+					"id": "db-regio-ag",
+					"name": "DB Regio AG"
+				},
+				"symbol": "RE",
+				"nr": 3,
+				"metro": false,
+				"express": true,
+				"night": false,
+				"color": {
+					"fg": "#fff",
+					"bg": "#F75E25"
+				}
+			},
+			"direction": "Falkenberg/E., Bahnhof",
+			"when": "2019-12-14T13:35:00+01:00",
+			"delay": null
+		},
+		{
+			"tripId": "1|190|0|86|14122019",
+			"line": {
+				"type": "line",
+				"id": "rb10",
+				"fahrtNr": "437",
+				"name": "RB10",
+				"public": true,
+				"mode": "train",
+				"product": "regional",
+				"operator": {
+					"type": "operator",
+					"id": "db-regio-ag",
+					"name": "DB Regio AG"
+				},
+				"symbol": "RB",
+				"nr": 10,
+				"metro": false,
+				"express": false,
+				"night": false,
+				"color": {
+					"fg": "#fff",
+					"bg": "#57A639"
+				}
+			},
+			"direction": "S Südkreuz Bhf (Berlin)",
+			"when": "2019-12-14T13:51:00+01:00",
+			"delay": null
+		},
+		{
+			"tripId": "1|45881|0|86|14122019",
+			"line": {
+				"type": "line",
+				"id": "re4",
+				"fahrtNr": "62168",
+				"name": "RE4",
+				"public": true,
+				"mode": "train",
+				"product": "regional",
+				"operator": {
+					"type": "operator",
+					"id": "odeg-ostdeutsche-eisenbahn-gmbh",
+					"name": "ODEG Ostdeutsche Eisenbahn GmbH"
+				},
+				"symbol": "RE",
+				"nr": 4,
+				"metro": false,
+				"express": true,
+				"night": false,
+				"color": {
+					"fg": "#fff",
+					"bg": "#75151E"
+				}
+			},
+			"direction": "Ludwigsfelde, Bahnhof",
+			"when": "2019-12-14T14:13:00+01:00",
+			"delay": null
+		},
+		{
+			"tripId": "1|1841|0|86|14122019",
+			"line": {
+				"type": "line",
+				"id": "re5",
+				"fahrtNr": "543",
+				"name": "RE5",
+				"public": true,
+				"mode": "train",
+				"product": "regional",
+				"operator": {
+					"type": "operator",
+					"id": "db-regio-ag",
+					"name": "DB Regio AG"
+				},
+				"symbol": "RE",
+				"nr": 5,
+				"metro": false,
+				"express": true,
+				"night": false,
+				"color": {
+					"fg": "#fff",
+					"bg": "#063971"
+				}
+			},
+			"direction": "Wünsdorf-Waldstadt, Bahnhof",
+			"when": "2019-12-14T14:21:00+01:00",
+			"delay": null
+		},
+		{
+			"tripId": "1|1566|0|86|14122019",
+			"line": {
+				"type": "line",
+				"id": "re3",
+				"fahrtNr": "601",
+				"name": "RE3",
+				"public": true,
+				"mode": "train",
+				"product": "regional",
+				"operator": {
+					"type": "operator",
+					"id": "db-regio-ag",
+					"name": "DB Regio AG"
+				},
+				"symbol": "RE",
+				"nr": 3,
+				"metro": false,
+				"express": true,
+				"night": false,
+				"color": {
+					"fg": "#fff",
+					"bg": "#F75E25"
+				}
+			},
+			"direction": "Lutherstadt Wittenberg, Hauptbahnhof",
+			"when": "2019-12-14T14:35:00+01:00",
+			"delay": null
+		}
+	]
+}

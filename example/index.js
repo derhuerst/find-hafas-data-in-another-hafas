@@ -7,11 +7,11 @@ const mergeLegs = require('../merge')
 const {
 	normalizeStopName: normalizeDbStopName,
 	normalizeLineName: normalizeDbLineName
-} = require('./normalize-db-names')
+} = require('../test/normalize-db-names')
 const {
 	normalizeStopName: normalizeVbbStopName,
 	normalizeLineName: normalizeVbbLineName
-} = require('./normalize-vbb-names')
+} = require('../test/normalize-vbb-names')
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')

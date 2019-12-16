@@ -1,0 +1,201 @@
+{
+	"cancelled": null,
+	"reachable": true,
+	"tripId": "1|255809|0|80|14122019",
+	"vbbTripId": "1|1830|0|86|14122019",
+	"line": {
+		"type": "line",
+		"id": "re-5",
+		"fahrtNr": "4359",
+		"name": "RE 5",
+		"public": true,
+		"mode": "train",
+		"product": "regional",
+		"operator": {
+			"type": "operator",
+			"id": "db-regio-ag-nordost",
+			"name": "DB Regio AG Nordost"
+		},
+		"additionalName": "RE 5",
+		"vbbFahrtNr": "28"
+	},
+	"direction": "Elsterwerda",
+
+	"origin": {
+		"type": "stop",
+		"id": "8011118",
+		"name": "Berlin Potsdamer Platz",
+		"location": {
+			"type": "location",
+			"id": "8011118",
+			"latitude": 52.509436,
+			"longitude": 13.375904
+		},
+		"products": {
+			"nationalExpress": false,
+			"national": false,
+			"regionalExp": false,
+			"regional": true,
+			"suburban": true,
+			"bus": true,
+			"ferry": false,
+			"subway": true,
+			"tram": false,
+			"taxi": false
+		},
+		"vbbId": "900000100020",
+		"station": null
+	},
+	"departure": "2019-12-14T13:22:00+01:00",
+	"departurePlatform": "2",
+	"scheduledDeparture": null,
+	"departureDelay": 60,
+
+	"destination": {
+		"type": "stop",
+		"id": "8011113",
+		"name": "Berlin Südkreuz",
+		"location": {
+			"type": "location",
+			"id": "8011113",
+			"latitude": 52.47623,
+			"longitude": 13.365863
+		},
+		"products": {
+			"nationalExpress": true,
+			"national": true,
+			"regionalExp": true,
+			"regional": true,
+			"suburban": true,
+			"bus": true,
+			"ferry": false,
+			"subway": false,
+			"tram": false,
+			"taxi": false
+		},
+		"vbbId": "900000058101",
+		"station": null
+	},
+	"arrival": "2019-12-14T13:26:00+01:00",
+	"arrivalDelay": 60,
+	"arrivalPlatform": "4",
+	"scheduledArrival": null,
+
+	"stopovers": [
+		{
+			"stop": {
+				"type": "stop",
+				"id": "8011118",
+				"name": "Berlin Potsdamer Platz",
+				"location": {
+					"type": "location",
+					"id": "8011118",
+					"latitude": 52.509436,
+					"longitude": 13.375904
+				},
+				"products": {
+					"nationalExpress": false,
+					"national": false,
+					"regionalExp": false,
+					"regional": true,
+					"suburban": true,
+					"bus": true,
+					"ferry": false,
+					"subway": true,
+					"tram": false,
+					"taxi": false
+				},
+				"vbbId": "900000100020",
+				"station": null
+			},
+
+			"cancelled": null,
+			"reachable": null,
+			"arrival": null,
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"scheduledArrival": null,
+			"departure": "2019-12-14T13:22:00+01:00",
+			"departureDelay": 60,
+			"departurePlatform": "2",
+			"scheduledDeparture": null,
+
+			"remarks": [
+				{
+					"type": "status",
+					"code": null,
+					"text": "Waiting for passengers from another train"
+				}
+			]
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "8011113",
+				"name": "Berlin Südkreuz",
+				"location": {
+					"type": "location",
+					"id": "8011113",
+					"latitude": 52.47623,
+					"longitude": 13.365863
+				},
+				"products": {
+					"nationalExpress": true,
+					"national": true,
+					"regionalExp": true,
+					"regional": true,
+					"suburban": true,
+					"bus": true,
+					"ferry": false,
+					"subway": false,
+					"tram": false,
+					"taxi": false
+				},
+				"vbbId": "900000058101",
+				"station": null
+			},
+
+			"cancelled": null,
+			"reachable": null,
+
+			"arrival": "2019-12-14T13:26:00+01:00",
+			"arrivalDelay": 60,
+			"arrivalPlatform": "4",
+			"scheduledArrival": null,
+
+			"departure": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"scheduledDeparture": null
+		}
+	],
+
+	"remarks": [
+		{
+			"text": "Number of bicycles conveyed limited",
+			"type": "hint",
+			"code": "bicycle-conveyance",
+			"summary": "bicycles conveyed"
+		},
+		{
+			"type": "hint",
+			"code": "ZM",
+			"text": "Boarding aid in the middle section of the train"
+		},
+		{
+			"type": "hint",
+			"code": "FB",
+			"text": "Bicycle conveyance"
+		},
+		{
+			"type": "hint",
+			"code": "oy",
+			"text": "Fahrradmitnahme leicht gemacht: <a href=\"http://www.vbb.de/radimregio\">www.vbb.de/radimregio</a>"
+		},
+		{
+			"type": "hint",
+			"code": "ZM",
+			"text": "Boarding aid in the middle section of the train"
+		}
+	]
+}
