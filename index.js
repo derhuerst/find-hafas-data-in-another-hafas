@@ -8,6 +8,7 @@ const createMatchStopOrStation = require('./lib/match-stop-or-station')
 const createMatchLineName = require('./lib/match-line-by-name')
 const createMatchStopover = require('./lib/match-stopover')
 const legFromTrip = require('./lib/leg-from-trip')
+const legFromDep = require('./lib/leg-from-dep')
 const {scheduledDepartureOf, scheduledArrivalOf} = require('./lib/helpers')
 
 const minute = 60 * 1000
@@ -129,24 +130,22 @@ const createFindLeg = (A, B) => {
 
 		// try to pass the trip ID from HAFAS A into HAFAS B
 		if (hafasB.trip) {
-			const pTrip = hafasB.trip(legA.tripId, legA.line.name, {
-				stopovers: true, remarks: false
-				// todo: `language`?
-			})
 			try {
-				const tripB = await pTrip
+				const tripB = await hafasB.trip(legA.tripId, legA.line.name, {
+					stopovers: true, remarks: false
+					// todo: `language`?
+				})
 
 				if (!Array.isArray(tripB.stopovers)) {
 					throw new Error(`HAFAS B didn't return stopovers`)
 				}
-				const firstI = tripB.stopovers.findIndex(matchDepA)
-				if (firstI < 0) throw new Error('first stopover not matched')
-				const lastI = tripB.stopovers.slice(firstI + 1).findIndex(matchArrA)
-				if (lastI < 0) throw new Error('last stopover not matched')
-
-				// todo: fahrtNr, intermediate stopovers
-				debug('trip match!', 'tripA', tripA.id, 'tripB', tripB.id)
-				return null
+				const depI = tripB.stopovers.findIndex(matchDepA)
+				if (depI < 0) throw new Error('first stopover not matched')
+				const arrI = tripB.stopovers.slice(depI + 1).findIndex(matchArrA)
+				if (depI >= 0 && arrI >= 0) {
+					debug('match by trip ID!', tripB.id, tripB.line.name)
+					return legFromTrip(tripB, depI, arrI)
+				}
 			} catch (err) {
 				if (err && err.isHafasError) {
 					debug('matching by trip ID failed:', err && err.message || (err + ''))
@@ -172,60 +171,35 @@ const createFindLeg = (A, B) => {
 		// Query departures at firstStopB in direction of lastStopB.
 		const collectDepsB = createCollectDeps(hafasB.departures, {
 			direction: lastStopB.id,
-			remarks: false
+			remarks: false,
+			stopovers: true // todo: fall back to `hafasB.trip(dep.tripId)`?
 		})
-
 		let iterations = 0
 		for await (const deps of collectDepsB(firstStopB.id, depA - minute)) {
 			if (++iterations >= 3) break;
 
-			for (const dep of deps) {
-				if (!matchLineName(legA.line, dep.line)) {
-					debug('matching by line name failed', legA.line, dep.line)
+			// todo: parallelize this!
+			for (const depB of deps) {
+				debug('legB candidate', depB.tripId, depB.line.name)
+
+				if (!matchLineName(legA.line, depB.line)) {
+					debug('matching by line name failed', legA.line, depB.line)
 					continue
 				}
-				// todo
-				// if (dep.line.fahrtNr !== legA.line.fahrtNr) continue
-
-				// todo: parallelize this!
-				let trip
-				try {
-					const trip = await hafasB.trip(dep.tripId, dep.line.name, {stopovers: true})
-				} catch (err) {
-					debug('matching by trip ID failed:', err)
+				const depI = depB.nextStopovers.findIndex(matchDepA)
+				if (depI < 0) {
+					debug('first stopover not matched', depB.tripId, depB.line.name)
+					continue
 				}
-				if (trip) {
-					const depI = trip.stopovers.findIndex(matchDepA)
-					const arrI = trip.stopovers.slice(depI + 1).findIndex(matchArrA)
-					if (depI >= 0 && arrI >= 0) {
-						debug('match by trip ID!', trip.id, trip.line.name)
-						return legFromTrip(trip, depI, arrI)
-					}
+				const arrI = depB.nextStopovers.slice(depI + 1).findIndex(matchArrA)
+				if (arrI < 0) {
+					debug('last stopover not matched', depB.tripId, depB.line.name)
+					continue
 				}
 
-				const {journeys} = await hafasB.journeys(firstStopB, lastStopB, {
-					departure: depA, stopovers: true, tickets: false
-					// todo: introduce product mapping, limit products
-				})
-				for (const j of journeys) {
-					const transitLegs = j.legs.filter(l => !l.walking)
-					const [legB] = transitLegs
-					debug('legB candidate', legB.tripId, legB.line.name)
-
-					const depI = legB.stopovers.findIndex(matchDepA)
-					if (depI < 0) {
-						debug('first stopover not matched', legB.tripId, legB.line.name)
-						continue
-					}
-					const arrI = legB.stopovers.slice(depI + 1).findIndex(matchArrA)
-					if (arrI < 0) {
-						debug('last stopover not matched', legB.tripId, legB.line.name)
-						continue
-					}
-
-					debug('matched with', legB.tripId, legB.line.name)
-					return legB
-				}
+				// todo: fahrtNr? intermediate stops?
+				debug('matched with', depB.tripId, depB.line.name)
+				return legFromDep(depB, depI, arrI)
 			}
 		}
 
