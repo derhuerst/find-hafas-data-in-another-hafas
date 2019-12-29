@@ -77,6 +77,12 @@ const mergeLegs = (dbLeg, vbbLeg, normalizeDbName, normalizeVbbName) => {
 	return {
 		...dbLeg,
 
+		vbbTripId: vbbLeg.tripId,
+		line: {
+			...dbLeg.line,
+			vbbFahrtNr: vbbLeg.line.fahrtNr
+		},
+
 		origin: mergeStop(dbLeg.origin, vbbLeg.origin),
 		...mergeDep(dbLeg, vbbLeg),
 
