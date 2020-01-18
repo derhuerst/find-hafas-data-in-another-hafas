@@ -2,7 +2,7 @@
 
 const _distance = require('@turf/distance').default
 const {point} = require('@turf/helpers')
-const debug = require('debug')('find-db-hafas-trip-in-another-hafas')
+const debug = require('debug')('find-hafas-leg-in-another-hafas')
 const createCollectDeps = require('hafas-collect-departures-at')
 const createMatchStopOrStation = require('./lib/match-stop-or-station')
 const createMatchLineName = require('./lib/match-line-by-name')

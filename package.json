@@ -1,7 +1,7 @@
 {
 	"name": "find-hafas-leg-in-another-hafas",
 	"description": "Find a journey leg from one HAFAS endpoint in another one.",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"main": "index.js",
 	"files": [
 		"index.js",

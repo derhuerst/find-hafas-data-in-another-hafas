@@ -71,6 +71,11 @@ console.log('mergedLeg', mergedLeg)
 ```
 
 
+## Related
+
+- [`pan-european-routing`](https://github.com/derhuerst/pan-european-routing) – Get public transport data across Europe, using multiple HAFAS endpoints.
+
+
 ## Contributing
 
 If you have a question or need support using `find-hafas-leg-in-another-hafas`, please double-check your code and setup first. If you think you have found a bug or want to propose a feature, refer to [the issues page](https://github.com/derhuerst/find-hafas-leg-in-another-hafas/issues).
