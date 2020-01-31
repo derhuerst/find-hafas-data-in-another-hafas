@@ -9,7 +9,7 @@ const createMatchLineName = require('./lib/match-line-by-name')
 const createMatchStopover = require('./lib/match-stopover')
 const legFromTrip = require('./lib/leg-from-trip')
 const legFromDep = require('./lib/leg-from-dep')
-const {scheduledDepartureOf, scheduledArrivalOf} = require('./lib/helpers')
+const {plannedDepartureOf, plannedArrivalOf} = require('./lib/helpers')
 
 const minute = 60 * 1000
 const nonEmptyStr = str => 'string' === typeof str && str.length > 0
@@ -39,8 +39,8 @@ const createFindLeg = (A, B) => {
 	const matchStopOrStation = createMatchStopOrStation(normalizeNameA, normalizeNameB)
 	const matchLineName = createMatchLineName(normalizeLineNameA, normalizeLineNameB)
 
-	const matchDep = createMatchStopover(matchStopOrStation, scheduledDepartureOf)
-	const matchArr = createMatchStopover(matchStopOrStation, scheduledArrivalOf)
+	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
+	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
 
 	const findStopByName = async (hafasB, stopA) => {
 		debug('findStopByName', stopA.id, stopA.name)
@@ -119,13 +119,13 @@ const createFindLeg = (A, B) => {
 		const firstStopoverA = legA.stopovers[0]
 		const firstStopA = firstStopoverA.stop
 		debug('firstStopA', firstStopA.id, firstStopA.name)
-		const depA = scheduledDepartureOf(firstStopoverA)
+		const depA = plannedDepartureOf(firstStopoverA)
 		if (depA === null) throw new Error('invalid leg.stopovers[0]')
 
 		const lastStopoverA = legA.stopovers[legA.stopovers.length - 1]
 		const lastStopA = lastStopoverA.stop
 		debug('lastStopA', lastStopA.id, lastStopA.name)
-		const arrA = scheduledArrivalOf(lastStopoverA)
+		const arrA = plannedArrivalOf(lastStopoverA)
 		if (arrA === null) throw new Error('invalid last(leg.stopovers)')
 
 		const matchDepA = matchDep(firstStopoverA)
