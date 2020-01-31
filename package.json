@@ -1,7 +1,7 @@
 {
 	"name": "find-hafas-leg-in-another-hafas",
 	"description": "Find a journey leg from one HAFAS endpoint in another one.",
-	"version": "1.0.1",
+	"version": "1.0.2",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -27,7 +27,7 @@
 		"debug": "^4.1.0",
 		"hafas-collect-departures-at": "^2.0.0",
 		"lodash": "^4.17.15",
-		"slug": "^1.1.0",
+		"slug": "^2.1.1",
 		"tokenize-db-station-name": "^2.2.1",
 		"tokenize-vbb-station-name": "^1.0.0"
 	},

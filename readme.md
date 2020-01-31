@@ -74,6 +74,7 @@ console.log('mergedLeg', mergedLeg)
 ## Related
 
 - [`pan-european-routing`](https://github.com/derhuerst/pan-european-routing) – Get public transport data across Europe, using multiple HAFAS endpoints.
+- [`stable-public-transport-ids`](https://github.com/derhuerst/stable-public-transport-ids) – Get stable IDs for public transport stations, etc.
 
 
 ## Contributing
