@@ -2,6 +2,7 @@
 const without = require('lodash/without')
 const tokenizeDb = require('tokenize-db-station-name')
 const slug = require('slug')
+const {strictEqual} = require('assert')
 
 // todo: move to tokenize-db-station-name
 const dbStopwords = [
@@ -19,7 +20,16 @@ const normalizeStopName = (str) => {
 	return without(tokenizeDb(str), ...dbStopwords).join(' ')
 }
 
-const normalizeLineName = str => slug(str.replace(/\s/g, ''))
+const normalizeLineName = (str) => {
+	str = str
+	.replace(/^bus\s+/ig, '') // buses
+	.replace(/^str\s+/ig, '') // trams
+	.replace(/\s/g, '')
+	return slug(str)
+}
+
+strictEqual(normalizeLineName('Bus 142'), '142')
+strictEqual(normalizeLineName('Metro Bus 142'), 'MetroBus142')
 
 module.exports = {
 	normalizeStopName,
