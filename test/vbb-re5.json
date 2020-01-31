@@ -19,6 +19,12 @@
 			"regional": true
 		}
 	},
+	"departure": "2019-12-14T13:22:00+01:00",
+	"plannedDeparture": "2019-12-14T13:21:00+01:00",
+	"departureDelay": 60,
+	"departurePlatform": "2",
+	"plannedDeparturePlatform": "2",
+
 	"destination": {
 		"type": "stop",
 		"id": "900000058101",
@@ -39,11 +45,13 @@
 			"regional": true
 		}
 	},
-	"departure": "2019-12-14T13:22:00+01:00",
-	"arrival": "2019-12-14T13:26:00+01:00",
+	"arrival": "2019-12-14T13:25:00+01:00",
+	"plannedArrival": "2019-12-14T13:25:00+01:00",
+	"arrivalDelay": null,
+	"arrivalPlatform": "4",
+	"plannedArrivalPlatform": "3",
+
 	"reachable": true,
-	"departureDelay": 60,
-	"arrivalDelay": 60,
 	"tripId": "1|1830|0|86|14122019",
 	"line": {
 		"type": "line",
@@ -69,8 +77,6 @@
 		}
 	},
 	"direction": "Elsterwerda, Bhf",
-	"arrivalPlatform": "4",
-	"departurePlatform": "2",
 	"stopovers": [
 		{
 			"stop": {
@@ -97,8 +103,10 @@
 			"arrivalDelay": null,
 			"arrivalPlatform": null,
 			"departure": "2019-12-14T13:22:00+01:00",
+			"plannedDeparture": "2019-12-14T13:21:00+01:00",
 			"departureDelay": 60,
-			"departurePlatform": null
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
 		},
 		{
 			"stop": {
@@ -122,11 +130,16 @@
 				}
 			},
 			"arrival": "2019-12-14T13:26:00+01:00",
+			"plannedArrival": "2019-12-14T13:25:00+01:00",
 			"arrivalDelay": 60,
 			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+
 			"departure": null,
+			"plannedDeparture": null,
 			"departureDelay": null,
-			"departurePlatform": null
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
 		}
 	],
 	"remarks": [

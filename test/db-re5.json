@@ -22,6 +22,12 @@
 			"taxi": false
 		}
 	},
+	"departure": "2019-12-14T13:21:00+01:00",
+	"plannedDeparture": "2019-12-14T13:21:00+01:00",
+	"departureDelay": null,
+	"departurePlatform": "2",
+	"plannedDeparturePlatform": "2",
+
 	"destination": {
 		"type": "stop",
 		"id": "8011113",
@@ -45,10 +51,13 @@
 			"taxi": false
 		}
 	},
-	"departure": "2019-12-14T13:21:00+01:00",
 	"arrival": "2019-12-14T13:26:00+01:00",
-	"reachable": true,
+	"plannedArrival": "2019-12-14T13:25:00+01:00",
 	"arrivalDelay": 60,
+	"arrivalPlatform": "3",
+	"plannedArrivalPlatform": "3",
+
+	"reachable": true,
 	"tripId": "1|255809|0|80|14122019",
 	"line": {
 		"type": "line",
@@ -66,8 +75,6 @@
 		"additionalName": "RE 5"
 	},
 	"direction": "Elsterwerda",
-	"arrivalPlatform": "4",
-	"departurePlatform": "2",
 	"stopovers": [
 		{
 			"stop": {
@@ -97,8 +104,10 @@
 			"arrivalDelay": null,
 			"arrivalPlatform": null,
 			"departure": "2019-12-14T13:21:00+01:00",
+			"plannedDeparture": "2019-12-14T13:21:00+01:00",
 			"departureDelay": null,
 			"departurePlatform": "2",
+			"plannedDeparturePlatform": "2",
 			"remarks": [
 				{
 					"type": "status",
@@ -132,11 +141,16 @@
 				}
 			},
 			"arrival": "2019-12-14T13:26:00+01:00",
+			"plannedArrival": "2019-12-14T13:25:00+01:00",
 			"arrivalDelay": 60,
 			"arrivalPlatform": "4",
+			"plannedArrivalPlatform": "3",
+
 			"departure": null,
+			"plannedDeparture": null,
 			"departureDelay": null,
-			"departurePlatform": null
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
 		}
 	],
 	"remarks": [

@@ -1,5 +1,4 @@
 {
-	"cancelled": null,
 	"reachable": true,
 	"tripId": "1|255809|0|80|14122019",
 	"vbbTripId": "1|1830|0|86|14122019",
@@ -47,9 +46,10 @@
 		"station": null
 	},
 	"departure": "2019-12-14T13:22:00+01:00",
-	"departurePlatform": "2",
-	"scheduledDeparture": null,
+	"plannedDeparture": "2019-12-14T13:21:00+01:00",
 	"departureDelay": 60,
+	"departurePlatform": "2",
+	"plannedDeparturePlatform": "2",
 
 	"destination": {
 		"type": "stop",
@@ -77,9 +77,10 @@
 		"station": null
 	},
 	"arrival": "2019-12-14T13:26:00+01:00",
+	"plannedArrival": "2019-12-14T13:25:00+01:00",
 	"arrivalDelay": 60,
 	"arrivalPlatform": "4",
-	"scheduledArrival": null,
+	"plannedArrivalPlatform": "3",
 
 	"stopovers": [
 		{
@@ -109,16 +110,17 @@
 				"station": null
 			},
 
-			"cancelled": null,
-			"reachable": null,
 			"arrival": null,
+			"plannedArrival": null,
 			"arrivalDelay": null,
 			"arrivalPlatform": null,
-			"scheduledArrival": null,
+			"plannedArrivalPlatform": null,
+
 			"departure": "2019-12-14T13:22:00+01:00",
 			"departureDelay": 60,
+			"plannedDeparture": "2019-12-14T13:21:00+01:00",
 			"departurePlatform": "2",
-			"scheduledDeparture": null,
+			"plannedDeparturePlatform": "2",
 
 			"remarks": [
 				{
@@ -155,18 +157,17 @@
 				"station": null
 			},
 
-			"cancelled": null,
-			"reachable": null,
-
 			"arrival": "2019-12-14T13:26:00+01:00",
 			"arrivalDelay": 60,
+			"plannedArrival": "2019-12-14T13:25:00+01:00",
 			"arrivalPlatform": "4",
-			"scheduledArrival": null,
+			"plannedArrivalPlatform": "3",
 
 			"departure": null,
 			"departureDelay": null,
+			"plannedDeparture": null,
 			"departurePlatform": null,
-			"scheduledDeparture": null
+			"plannedDeparturePlatform": null
 		}
 	],
 
