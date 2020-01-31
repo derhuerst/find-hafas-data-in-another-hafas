@@ -45,7 +45,10 @@ const createFindLeg = (A, B) => {
 	const findStopByName = async (hafasB, stopA) => {
 		debug('findStopByName', stopA.id, stopA.name)
 
-		const nearby = await hafasB.nearby(stopA.location, {poi: false})
+		const nearby = await hafasB.nearby(stopA.location, {
+			poi: false,
+			results: 10
+		})
 		debug('hafasB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
 
 		const matchA = matchStopOrStation(stopA)
@@ -79,7 +82,7 @@ const createFindLeg = (A, B) => {
 		if (sA.station) {
 			sB = await findStopById(hafasB, sA.station)
 			if (sB) {
-				debug('matched by station ID', sA.station.id)
+				debug('matched by station ID with', sB.id, sB.name)
 				return sB
 			}
 		}
@@ -96,7 +99,7 @@ const createFindLeg = (A, B) => {
 			}
 		}
 
-		debug('not matched :(')
+		debug('not matched :(', sA.id, sA.name)
 		return null
 	}
 
