@@ -1,25 +1,45 @@
 'use strict'
 
+const {deepStrictEqual} = require('assert')
 const omit = require('lodash/omit')
 const createMatchStop = require('./lib/match-stop-or-station')
 const createMatchStopover = require('./lib/match-stopover')
 const {plannedDepartureOf} = require('./lib/helpers')
 
-// this fails with unicode
+// todo: this fails with unicode
 const upperCase = str => str[0].toUpperCase() + str.slice(1)
 
-const mergeStop = (dbStop, vbbStop) => {
-	if (!vbbStop) return dbStop
-	if (!dbStop) return {...vbbStop, id: null, vbbId: vbbStop.id}
+const mergeIds = (key, clientNameA, a, clientNameB, b) => {
+	const pluralKey = key + 's'
+	const ids = {
+		...(a && a[pluralKey] || {}),
+		...(b && b[pluralKey] || {})
+	}
+	if (a && a[key]) ids[clientNameA] = a[key]
+	if (b && b[key]) ids[clientNameB] = b[key]
+	return ids
+}
+
+const a = {foo: 1, foos: {c: 3}}
+const b = {foo: 2, foos: {a: 5, d: 4}}
+deepStrictEqual(mergeIds('foo', 'a', null, 'b', null), {})
+deepStrictEqual(mergeIds('foo', 'a', a, 'b', null), {a: 1, c: 3})
+deepStrictEqual(mergeIds('foo', 'a', null, 'b', b), {a: 5, b: 2, d: 4})
+deepStrictEqual(mergeIds('foo', 'a', a, 'b', b), {a: 1, b: 2, c: 3, d: 4})
+
+const mergeStop = (clientNameA, stopA, clientNameB, stopB) => {
+	const ids = mergeIds('id', clientNameA, stopA, clientNameB, stopB)
+	if (!stopB) return {...stopA, ids}
+	if (!stopA) return {...stopB, id: null, ids}
 	return {
-		// todo: additional vbbStop props?
-		...omit(dbStop, ['station']),
-		vbbId: vbbStop.id,
-		station: mergeStop(dbStop.station, vbbStop.station) || null
+		// todo: additional stopB props?
+		...omit(stopA, ['station']),
+		ids,
+		station: stopA.station ? mergeStop(clientNameA, stopA.station, clientNameB, stopB.station) : null
 	}
 }
 
-const mergeWhen = (key) => (dbSt, vbbSt) => {
+const mergeWhen = (key) => (stA, stB) => {
 	const _cancelled = 'cancelled'
 	const _when = key
 	const _plannedWhen = 'planned' + upperCase(key)
@@ -30,55 +50,55 @@ const mergeWhen = (key) => (dbSt, vbbSt) => {
 	const _prognosedPlatform = 'prognosed' + upperCase(key) + 'Platform'
 	const _reachable = 'reachable'
 
-	// always prefer VBB realtime data if both available
+	// always prefer `stB` realtime data if both available
 	const merged = {
 		[_when]: (
-			Number.isFinite(vbbSt[_delay])
-			? vbbSt[_when]
-			: dbSt[_when]
+			Number.isFinite(stB[_delay])
+			? stB[_when]
+			: stA[_when]
 		),
 		[_plannedWhen]: (
-			vbbSt[_plannedWhen] ||
-			dbSt[_plannedWhen] ||
+			stB[_plannedWhen] ||
+			stA[_plannedWhen] ||
 			null
 		),
 		[_delay]: (
-			Number.isFinite(vbbSt[_delay])
-			? vbbSt[_delay]
-			: dbSt[_delay]
+			Number.isFinite(stB[_delay])
+			? stB[_delay]
+			: stA[_delay]
 		),
 		[_platform]: (
-			vbbSt[_platform] !== vbbSt[_plannedPlatform]
-			? vbbSt[_platform]
-			: dbSt[_platform]
+			stB[_platform] !== stB[_plannedPlatform]
+			? stB[_platform]
+			: stA[_platform]
 		),
 		[_plannedPlatform]: (
-			vbbSt[_plannedPlatform] ||
-			dbSt[_plannedPlatform] ||
+			stB[_plannedPlatform] ||
+			stA[_plannedPlatform] ||
 			null
 		)
 	}
 
-	if (_cancelled in vbbSt) {
-		merged[_cancelled] = vbbSt[_cancelled]
-	} else if (_cancelled in dbSt) {
-		merged[_cancelled] = dbSt[_cancelled]
+	if (_cancelled in stB) {
+		merged[_cancelled] = stB[_cancelled]
+	} else if (_cancelled in stA) {
+		merged[_cancelled] = stA[_cancelled]
 	}
-	if (_prognosedWhen in vbbSt) {
-		merged[_prognosedWhen] = vbbSt[_prognosedWhen]
-	} else if (_prognosedWhen in dbSt) {
-		merged[_prognosedWhen] = dbSt[_prognosedWhen]
+	if (_prognosedWhen in stB) {
+		merged[_prognosedWhen] = stB[_prognosedWhen]
+	} else if (_prognosedWhen in stA) {
+		merged[_prognosedWhen] = stA[_prognosedWhen]
 	}
-	if (_prognosedPlatform in vbbSt) {
-		merged[_prognosedPlatform] = vbbSt[_prognosedPlatform]
-	} else if (_prognosedPlatform in dbSt) {
-		merged[_prognosedPlatform] = dbSt[_prognosedPlatform]
+	if (_prognosedPlatform in stB) {
+		merged[_prognosedPlatform] = stB[_prognosedPlatform]
+	} else if (_prognosedPlatform in stA) {
+		merged[_prognosedPlatform] = stA[_prognosedPlatform]
 	}
 
-	if (typeof vbbSt[_reachable] === 'boolean') {
-		merged[_reachable] = vbbSt[_reachable]
-	} else if (typeof dbSt[_reachable] === 'boolean') {
-		merged[_reachable] = dbSt[_reachable]
+	if (typeof stB[_reachable] === 'boolean') {
+		merged[_reachable] = stB[_reachable]
+	} else if (typeof stA[_reachable] === 'boolean') {
+		merged[_reachable] = stA[_reachable]
 	}
 
 	return merged
@@ -86,7 +106,7 @@ const mergeWhen = (key) => (dbSt, vbbSt) => {
 const mergeDep = mergeWhen('departure')
 const mergeArr = mergeWhen('arrival')
 
-const createMergeLegs = (A, B) => (dbLeg, vbbLeg) => {
+const createMergeLegs = (A, B) => (legA, legB) => {
 	const {
 		clientName: clientNameA,
 		normalizeStopName: normalizeStopNameA,
@@ -98,38 +118,40 @@ const createMergeLegs = (A, B) => (dbLeg, vbbLeg) => {
 	const matchStop = createMatchStop(clientNameA, normalizeStopNameA, clientNameB, normalizeStopNameB)
 	const matchStopover = createMatchStopover(matchStop, plannedDepartureOf)
 
-	const stopovers = dbLeg.stopovers.map((dbSt) => {
-		const vbbSt = vbbLeg.stopovers.find(matchStopover(dbSt))
-		if (!vbbSt) return dbSt
+	const stopovers = legA.stopovers.map((stA) => {
+		const stB = legB.stopovers.find(matchStopover(stA))
+		if (!stB) return stA
 		return {
-			...dbSt,
-			stop: mergeStop(dbSt.stop, vbbSt.stop),
-			...mergeDep(dbSt, vbbSt),
-			...mergeArr(dbSt, vbbSt)
+			...stA,
+			stop: mergeStop(clientNameA, stA.stop, clientNameB, stB.stop),
+			...mergeDep(stA, stB),
+			...mergeArr(stA, stB)
 		}
 	})
 
 	return {
-		...dbLeg,
+		...legA,
 
-		vbbTripId: vbbLeg.tripId,
+		tripIds: mergeIds('tripId', clientNameA, legA, clientNameB, legB),
 		line: {
-			...dbLeg.line,
-			vbbFahrtNr: vbbLeg.line.fahrtNr
+			...legA.line,
+			fahrtNrs: mergeIds('fahrtNr', clientNameA, legA.line, clientNameB, legB.line)
 		},
 
-		origin: mergeStop(dbLeg.origin, vbbLeg.origin),
-		...mergeDep(dbLeg, vbbLeg),
+		origin: mergeStop(clientNameA, legA.origin, clientNameB, legB.origin),
+		...mergeDep(legA, legB),
 
-		destination: mergeStop(dbLeg.destination, vbbLeg.destination),
-		...mergeArr(dbLeg, vbbLeg),
+		destination: mergeStop(clientNameA, legA.destination, clientNameB, legB.destination),
+		...mergeArr(legA, legB),
 
 		stopovers,
 
 		remarks: [
-			...dbLeg.remarks || [],
-			...vbbLeg.remarks || []
+			...legA.remarks || [],
+			...legB.remarks || []
 		]
+
+		// todo: additional `legB` fields?
 	}
 }
 

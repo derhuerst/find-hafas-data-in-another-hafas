@@ -1,11 +1,18 @@
 {
 	"reachable": true,
 	"tripId": "1|255809|0|80|14122019",
-	"vbbTripId": "1|1830|0|86|14122019",
+	"tripIds": {
+		"db": "1|255809|0|80|14122019",
+		"vbb": "1|1830|0|86|14122019"
+	},
 	"line": {
 		"type": "line",
 		"id": "re-5",
 		"fahrtNr": "4359",
+		"fahrtNrs": {
+			"db": "4359",
+			"vbb": "28"
+		},
 		"name": "RE 5",
 		"public": true,
 		"mode": "train",
@@ -15,14 +22,17 @@
 			"id": "db-regio-ag-nordost",
 			"name": "DB Regio AG Nordost"
 		},
-		"additionalName": "RE 5",
-		"vbbFahrtNr": "28"
+		"additionalName": "RE 5"
 	},
 	"direction": "Elsterwerda",
 
 	"origin": {
 		"type": "stop",
 		"id": "8011118",
+		"ids": {
+			"db": "8011118",
+			"vbb": "900000100020"
+		},
 		"name": "Berlin Potsdamer Platz",
 		"location": {
 			"type": "location",
@@ -42,7 +52,6 @@
 			"tram": false,
 			"taxi": false
 		},
-		"vbbId": "900000100020",
 		"station": null
 	},
 	"departure": "2019-12-14T13:22:00+01:00",
@@ -54,6 +63,10 @@
 	"destination": {
 		"type": "stop",
 		"id": "8011113",
+		"ids": {
+			"db": "8011113",
+			"vbb": "900000058101"
+		},
 		"name": "Berlin Südkreuz",
 		"location": {
 			"type": "location",
@@ -73,7 +86,6 @@
 			"tram": false,
 			"taxi": false
 		},
-		"vbbId": "900000058101",
 		"station": null
 	},
 	"arrival": "2019-12-14T13:26:00+01:00",
@@ -87,6 +99,10 @@
 			"stop": {
 				"type": "stop",
 				"id": "8011118",
+				"ids": {
+					"db": "8011118",
+					"vbb": "900000100020"
+				},
 				"name": "Berlin Potsdamer Platz",
 				"location": {
 					"type": "location",
@@ -106,7 +122,6 @@
 					"tram": false,
 					"taxi": false
 				},
-				"vbbId": "900000100020",
 				"station": null
 			},
 
@@ -134,6 +149,10 @@
 			"stop": {
 				"type": "stop",
 				"id": "8011113",
+				"ids": {
+					"db": "8011113",
+					"vbb": "900000058101"
+				},
 				"name": "Berlin Südkreuz",
 				"location": {
 					"type": "location",
@@ -153,7 +172,6 @@
 					"tram": false,
 					"taxi": false
 				},
-				"vbbId": "900000058101",
 				"station": null
 			},
 
