@@ -32,7 +32,7 @@ npm install find-hafas-leg-in-another-hafas
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
 const createFindLeg = require('find-hafas-leg-in-another-hafas')
-const mergeLegs = require('find-hafas-leg-in-another-hafas/merge')
+const createMergeLegs = require('find-hafas-leg-in-another-hafas/merge')
 
 // Note that, for legs to be matched reliably, you need a more
 // sophisticated normalization function. Use e.g.
@@ -40,17 +40,30 @@ const mergeLegs = require('find-hafas-leg-in-another-hafas/merge')
 // - https://github.com/derhuerst/tokenize-vbb-station-name
 const normalizeName = name => str.toLowerCase().replace(/\s/g, '')
 
+// These names should be URL-safe & stable, they will used to compute
+// IDs to be matched against other IDs.
+const dbName = 'db'
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
+const vbbName = 'vbb'
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
 
 const findLegInAnother = createFindLeg({
+	clientName: dbName,
 	hafas: db,
 	normalizeStopName: normalizeName,
 	normalizeLineName: normalizeName
 }, {
+	clientName: vbbName,
 	hafas: vbb,
 	normalizeStopName: normalizeName,
 	normalizeLineName: normalizeName
+})
+const mergeLegs = createMergeLegs({
+	clientName: dbName,
+	normalizeStopName: normalizeName
+}, {
+	clientName: vbbName,
+	normalizeStopName: normalizeName
 })
 
 const potsdamerPlatz = '8011118'
@@ -66,7 +79,7 @@ console.log('DB leg', dbLeg)
 const vbbLeg = findLegInAnother(dbLeg)
 console.log('equivalent VBB leg', leg)
 
-const mergedLeg = mergeLegs(dbLeg, vbbLeg, normalizeDbStopName, normalizeVbbStopName)
+const mergedLeg = mergeLegs(dbLeg, vbbLeg)
 console.log('mergedLeg', mergedLeg)
 ```
 

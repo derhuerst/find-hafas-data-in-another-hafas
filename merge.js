@@ -86,9 +86,18 @@ const mergeWhen = (key) => (dbSt, vbbSt) => {
 const mergeDep = mergeWhen('departure')
 const mergeArr = mergeWhen('arrival')
 
-const mergeLegs = (dbLeg, vbbLeg, normalizeDbName, normalizeVbbName) => {
-	const matchStop = createMatchStop(normalizeDbName, normalizeVbbName)
+const createMergeLegs = (A, B) => (dbLeg, vbbLeg) => {
+	const {
+		clientName: clientNameA,
+		normalizeStopName: normalizeStopNameA,
+	} = A
+	const {
+		clientName: clientNameB,
+		normalizeStopName: normalizeStopNameB,
+	} = B
+	const matchStop = createMatchStop(clientNameA, normalizeStopNameA, clientNameB, normalizeStopNameB)
 	const matchStopover = createMatchStopover(matchStop, plannedDepartureOf)
+
 	const stopovers = dbLeg.stopovers.map((dbSt) => {
 		const vbbSt = vbbLeg.stopovers.find(matchStopover(dbSt))
 		if (!vbbSt) return dbSt
@@ -124,4 +133,4 @@ const mergeLegs = (dbLeg, vbbLeg, normalizeDbName, normalizeVbbName) => {
 	}
 }
 
-module.exports = mergeLegs
+module.exports = createMergeLegs

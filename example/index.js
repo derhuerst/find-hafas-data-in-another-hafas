@@ -3,7 +3,7 @@
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
 const createFindLeg = require('..')
-const mergeLegs = require('../merge')
+const createMergeLegs = require('../merge')
 const {
 	normalizeStopName: normalizeDbStopName,
 	normalizeLineName: normalizeDbLineName
@@ -13,17 +13,28 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('../test/normalize-vbb-names')
 
+const dbName = 'db'
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
+const vbbName = 'vbb'
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
 
 const findLegInAnother = createFindLeg({
+	clientName: 'db',
 	hafas: db,
 	normalizeStopName: normalizeDbStopName,
 	normalizeLineName: normalizeDbLineName
 }, {
+	clientName: 'vbb',
 	hafas: vbb,
 	normalizeStopName: normalizeVbbStopName,
 	normalizeLineName: normalizeVbbLineName
+})
+const mergeLegs = createMergeLegs({
+	clientName: dbName,
+	normalizeStopName: normalizeDbStopName
+}, {
+	clientName: vbbName,
+	normalizeStopName: normalizeVbbStopName
 })
 
 const potsdamerPlatz = '8011118'
@@ -38,7 +49,7 @@ db.journeys(potsdamerPlatz, südkreuz, {results: 1, stopovers: true, tickets: fa
 	const vbbLeg = await findLegInAnother(dbLeg)
 	console.log('\n\n-- equivalent VBB leg', vbbLeg)
 
-	const mergedLeg = mergeLegs(dbLeg, vbbLeg, normalizeDbStopName, normalizeVbbStopName)
+	const mergedLeg = mergeLegs(dbLeg, vbbLeg)
 	console.log('\n\n-- mergedLeg', mergedLeg)
 })
 .catch((err) => {

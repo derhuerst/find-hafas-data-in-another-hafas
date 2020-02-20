@@ -17,7 +17,7 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('./normalize-vbb-names')
 
-const mergeLegs = require('../merge')
+const createMergeLegs = require('../merge')
 const createFindLeg = require('..')
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas test')
@@ -26,7 +26,14 @@ const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas test')
 const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
 
-const actualMergedRE5 = mergeLegs(dbRE5, vbbRE5, normalizeDbStopName, normalizeVbbStopName)
+const mergeLegs = createMergeLegs({
+	clientName: 'db',
+	normalizeStopName: normalizeDbStopName
+}, {
+	clientName: 'vbb',
+	normalizeStopName: normalizeVbbStopName
+})
+const actualMergedRE5 = mergeLegs(dbRE5, vbbRE5)
 deepStrictEqual(actualMergedRE5, mergedRE5)
 console.info('merge works fine')
 
@@ -39,10 +46,12 @@ console.info('merge works fine')
 	ok(dbLeg, 'missing test prerequisite: DB leg')
 
 	const findLegInAnother = createFindLeg({
+		clientName: 'db',
 		hafas: db,
 		normalizeStopName: normalizeDbStopName,
 		normalizeLineName: normalizeDbLineName
 	}, {
+		clientName: 'vbb',
 		hafas: vbb,
 		normalizeStopName: normalizeVbbStopName,
 		normalizeLineName: normalizeVbbLineName

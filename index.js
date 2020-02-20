@@ -26,18 +26,20 @@ const distance = (lA, lB) => {
 
 const createFindLeg = (A, B) => {
 	const {
+		clientName: clientNameA,
 		hafas: hafasA,
 		normalizeStopName: normalizeNameA,
 		normalizeLineName: normalizeLineNameA
 	} = A
 	const {
+		clientName: clientNameB,
 		hafas: hafasB,
 		normalizeStopName: normalizeNameB,
 		normalizeLineName: normalizeLineNameB
 	} = B
 
-	const matchStopOrStation = createMatchStopOrStation(normalizeNameA, normalizeNameB)
-	const matchLineName = createMatchLineName(normalizeLineNameA, normalizeLineNameB)
+	const matchStopOrStation = createMatchStopOrStation(clientNameA, normalizeNameA, clientNameB, normalizeNameB)
+	const matchLineName = createMatchLineName(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
 
 	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
 	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
