@@ -78,25 +78,25 @@ const createFindLeg = (A, B) => {
 
 		let sB = await findStopById(hafasB, sA)
 		if (sB) {
-			debug('matched by stop ID with', sB.id, sB.name)
+			debug('matched by stop ID with', clientNameB, sB.id, sB.name)
 			return sB
 		}
 		if (sA.station) {
 			sB = await findStopById(hafasB, sA.station)
 			if (sB) {
-				debug('matched by station ID with', sB.id, sB.name)
+				debug('matched by station ID with', clientNameB, sB.id, sB.name)
 				return sB
 			}
 		}
 		sB = await findStopByName(hafasB, sA)
 		if (sB) {
-			debug('matched by name with', sB.id, sB.name)
+			debug('matched by name with', clientNameB, sB.id, sB.name)
 			return sB
 		}
 		if (sA.station) {
 			sB = await findStopByName(hafasB, sA.station)
 			if (sB) {
-				debug('matched by station name with', sB.id, sB.name)
+				debug('matched by station name with', clientNameB, sB.id, sB.name)
 				return sB
 			}
 		}
@@ -142,13 +142,13 @@ const createFindLeg = (A, B) => {
 				})
 
 				if (!Array.isArray(tripB.stopovers)) {
-					throw new Error(`HAFAS B didn't return stopovers`)
+					throw new Error(`${clientNameB} HAFAS didn't return stopovers`)
 				}
 				const depI = tripB.stopovers.findIndex(matchDepA)
-				if (depI < 0) throw new Error('first stopover not matched')
+				if (depI < 0) throw new Error('first stopover of tripB not matched')
 				const arrI = tripB.stopovers.slice(depI + 1).findIndex(matchArrA)
 				if (depI >= 0 && arrI >= 0) {
-					debug('match by trip ID!', tripB.id, tripB.line.name)
+					debug('match by trip ID with', clientNameB, tripB.id, tripB.line.name)
 					return legFromTrip(tripB, depI, arrI)
 				}
 			} catch (err) {
@@ -203,7 +203,7 @@ const createFindLeg = (A, B) => {
 				}
 
 				// todo: fahrtNr? intermediate stops?
-				debug('matched with', depB.tripId, depB.line.name)
+				debug('matched with', clientNameB, depB.tripId, depB.line.name)
 				return legFromDep(depB, depI, arrI)
 			}
 		}
