@@ -8,7 +8,7 @@
 [![chat with me on Gitter](https://img.shields.io/badge/chat%20with%20me-on%20gitter-512e92.svg)](https://gitter.im/derhuerst)
 [![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
-Public transport providers in Europe often have data about vehicles run by other companies, but it is often outdated or imprecise. Consider these examples:
+Public transport providers in Europe often have data about vehicles run by other companies, but almost always it is outdated or imprecise. Consider these examples:
 
 ![sncf.com showing TGV 6631](docs/tgv-6631-sncf.png)
 ![bahn.de showing TGV 6631](docs/tgv-6631-db.png)
@@ -16,7 +16,9 @@ Public transport providers in Europe often have data about vehicles run by other
 ![bahn.de showing IC 2029](docs/ic-2029-db.png)
 ![sncf.com showing IC 2029](docs/ic-2029-sncf.png)
 
-**Let's always get the data about a vehicles from the company that actually run it!** Given a [`leg`](https://github.com/public-transport/friendly-public-transport-format/blob/1.2.1/spec/readme.md#journey) endpoint `A`, you can use this library to fetch more up-to-date data about it from another endpoint `B`.
+**Let's always get the data about a vehicles from the company that actually run it!** Given a [`leg`](https://github.com/public-transport/friendly-public-transport-format/blob/1.2.1/spec/readme.md#journey) from an endpoint `A`, you can use this library to fetch more up-to-date data about it from another endpoint `B`.
+
+[*Why linked open transit data?*](https://github.com/public-transport/why-linked-open-transit-data) explains more about this idea.
 
 
 ## Installation
@@ -86,6 +88,7 @@ console.log('mergedLeg', mergedLeg)
 
 ## Related
 
+- [*Why linked open transit data?*](https://github.com/public-transport/why-linked-open-transit-data)
 - [`pan-european-routing`](https://github.com/derhuerst/pan-european-routing) – Get public transport data across Europe, using multiple HAFAS endpoints.
 - [`stable-public-transport-ids`](https://github.com/derhuerst/stable-public-transport-ids) – Get stable IDs for public transport stations, etc.
 

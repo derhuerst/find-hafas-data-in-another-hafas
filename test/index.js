@@ -2,7 +2,7 @@
 
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
-const {ok, fail, strictEqual} = require('assert')
+const {ok, strictEqual} = require('assert')
 const {deepStrictEqual} = require('assert')
 
 const dbRE5 = require('./db-re5.json')

@@ -42,7 +42,6 @@ const createFindLeg = (A, B) => {
 	const matchLineName = createMatchLineName(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
 
 	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
-	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
 
 	const findStopByName = async (hafasB, stopA) => {
 		debug('findStopByName', stopA.id, stopA.name)
