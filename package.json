@@ -21,7 +21,7 @@
 		"node": ">=10"
 	},
 	"dependencies": {
-		"@derhuerst/stable-public-transport-ids": "github:derhuerst/stable-public-transport-ids",
+		"@derhuerst/stable-public-transport-ids": "^1.2.0",
 		"@turf/distance": "^6.0.1",
 		"@turf/helpers": "^6.1.4",
 		"debug": "^4.1.0",

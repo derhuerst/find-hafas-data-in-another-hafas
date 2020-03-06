@@ -58,8 +58,8 @@ console.info('merge works fine')
 	})
 	const vbbLeg = await findLegInAnother(dbLeg)
 
-	const vbbLineName = normalizeVbbLineName(vbbLeg.line.name)
-	const dbLineName = normalizeDbLineName(dbLeg.line.name)
+	const vbbLineName = normalizeVbbLineName(vbbLeg.line.name, vbbLeg.line)
+	const dbLineName = normalizeDbLineName(dbLeg.line.name, dbLeg.line)
 	strictEqual(vbbLineName, dbLineName, 'line names not equal')
 	// todo: more assertions
 
