@@ -62,9 +62,16 @@ const createFindLeg = (A, B) => {
 	}
 
 	const findStopById = async (hafasB, stopA) => {
-		debug('findStopById', stopA.id, stopA.name)
+		debug('findStopById', stopA.id, stopA.ids, stopA.name)
+		const idsA = stopA.ids || {}
+		const idA = (
+			idsA[clientNameB] ||
+			idsA[clientNameB.toLowerCase()] ||
+			idsA[clientNameB.toUpperCase()] ||
+			stopA.id
+		)
 		try {
-			const exact = await hafasB.stop(stopA)
+			const exact = await hafasB.stop(idA)
 			return distance(exact.location, stopA.location) < .2 ? exact : null
 		} catch (err) {
 			if (err && err.isHafasError) return null
@@ -77,13 +84,13 @@ const createFindLeg = (A, B) => {
 
 		let sB = await findStopById(hafasB, sA)
 		if (sB) {
-			debug('matched by stop ID with', clientNameB, sB.id, sB.name)
+			debug('matched by stop ID with', clientNameB, sB.id, sB.ids || {}, sB.name)
 			return sB
 		}
 		if (sA.station) {
 			sB = await findStopById(hafasB, sA.station)
 			if (sB) {
-				debug('matched by station ID with', clientNameB, sB.id, sB.name)
+				debug('matched by station ID with', clientNameB, sB.id, sB.ids || {}, sB.name)
 				return sB
 			}
 		}
