@@ -72,3 +72,97 @@ test('findLegInAnother works', async (t) => {
 
 	t.end()
 })
+
+
+
+const foo = {
+	type: 'stop', id: 'foo', name: 'Foo',
+	location: {latitude: 1, longitude: 2}
+}
+const dep = '2010-10-10T10:10+01:00'
+const bar = {
+	type: 'stop', id: 'bar', name: 'Bar',
+	location: {latitude: 2, longitude: 3}
+}
+const arr = '2010-10-10T10:20+01:00'
+const legA = {
+	origin: foo,
+	departure: dep,
+	plannedDeparture: dep,
+	departureDelay: null,
+
+	destination: bar,
+	arrival: arr,
+	plannedArrival: arr,
+	arrivalDelay: null,
+
+	tripId: 'trip-123',
+	line: {id: 'a', name: 'A'},
+	direction: 'anywhere',
+	stopovers: [{
+		stop: foo,
+		departure: dep,
+		plannedDeparture: dep,
+		departureDelay: null,
+	}, {
+		stop: {
+			type: 'stop', id: 'baz', name: 'Baz',
+			location: {latitude: 3, longitude: 4}
+		},
+		arrival: '2010-10-10T10:15+01:00',
+		plannedArrival: '2010-10-10T10:15+01:00',
+		arrivalDelay: null,
+		departure: '2010-10-10T10:16+01:00',
+		plannedDeparture: '2010-10-10T10:16+01:00',
+		departureDelay: null,
+	}, {
+		stop: bar,
+		arrival: arr,
+		plannedArrival: arr,
+		arrivalDelay: null,
+	}]
+}
+
+test('findLegInAnother picks the right index', async (t) => {
+	const hafasB = {
+		stop: async (id) => {
+			if (id === foo.id) return foo
+			if (id === bar.id) return bar
+			throw new Error('some error')
+		},
+		departures: async (id) => {
+			if (id !== foo.id) throw new Error('some error')
+			return [{
+				stop: foo,
+				tripId: legA.tripId,
+				direction: legA.direction,
+				line: legA.line,
+				nextStopovers: [{
+					stop: {
+						type: 'stop', id: 'qux', name: 'qux',
+						location: {latitude: 4, longitude: 5}
+					}
+				}, ...legA.stopovers]
+			}]
+		}
+	}
+
+	const normalizeName = n => n.toLowerCase()
+	const findLegInAnother = createFindLeg({
+		clientName: 'A',
+		hafas: db,
+		normalizeStopName: normalizeName,
+		normalizeLineName: normalizeName
+	}, {
+		clientName: 'B',
+		hafas: hafasB,
+		normalizeStopName: normalizeName,
+		normalizeLineName: normalizeName
+	})
+
+	const legB = await findLegInAnother(legA)
+	t.ok(legB)
+	t.equal(legB.destination.id, 'bar')
+	t.equal(legB.stopovers[legB.stopovers.length - 1].stop.id, 'bar')
+	t.end()
+})

@@ -42,6 +42,7 @@ const createFindLeg = (A, B) => {
 	const matchLineName = createMatchLineName(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
 
 	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
+	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
 
 	const findStopByName = async (hafasB, stopA) => {
 		debug('findStopByName', stopA.id, stopA.name)
@@ -137,7 +138,7 @@ const createFindLeg = (A, B) => {
 		if (arrA === null) throw new Error('invalid last(leg.stopovers)')
 
 		const matchDepA = matchDep(firstStopoverA)
-		const matchArrA = matchDep(lastStopoverA)
+		const matchArrA = matchArr(lastStopoverA)
 
 		// try to pass the trip ID from HAFAS A into HAFAS B
 		if (hafasB.trip) {
@@ -187,8 +188,6 @@ const createFindLeg = (A, B) => {
 		})
 		let iterations = 0
 		for await (const deps of collectDepsB(firstStopB.id, depA - minute)) {
-			if (++iterations >= 3) break;
-
 			// todo: parallelize this!
 			for (const depB of deps) {
 				debug('legB candidate', depB.tripId, depB.line.name)
@@ -202,16 +201,19 @@ const createFindLeg = (A, B) => {
 					debug('first stopover not matched', depB.tripId, depB.line.name)
 					continue
 				}
-				const arrI = depB.nextStopovers.slice(depI + 1).findIndex(matchArrA)
+				let arrI = depB.nextStopovers.slice(depI + 1).findIndex(matchArrA)
 				if (arrI < 0) {
 					debug('last stopover not matched', depB.tripId, depB.line.name)
 					continue
 				}
+				arrI += depI + 1
 
 				// todo: fahrtNr? intermediate stops?
 				debug('matched with', clientNameB, depB.tripId, depB.line.name)
 				return legFromDep(depB, depI, arrI)
 			}
+
+			if (++iterations >= 3) break;
 		}
 
 		debug('no match at all :((')
