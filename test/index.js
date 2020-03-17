@@ -2,8 +2,8 @@
 
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
-const {ok, strictEqual} = require('assert')
-const {deepStrictEqual} = require('assert')
+const tape = require('tape')
+const tapePromise = require('tape-promise').default
 
 const dbRE5 = require('./db-re5.json')
 const vbbRE5 = require('./vbb-re5.json')
@@ -26,24 +26,30 @@ const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas test')
 const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
 
-const mergeLegs = createMergeLegs({
-	clientName: 'db',
-	normalizeStopName: normalizeDbStopName
-}, {
-	clientName: 'vbb',
-	normalizeStopName: normalizeVbbStopName
-})
-const actualMergedRE5 = mergeLegs(dbRE5, vbbRE5)
-deepStrictEqual(actualMergedRE5, mergedRE5)
-console.info('merge works fine')
+const test = tapePromise(tape)
 
-;(async () => {
+test('merge works', (t) => {
+	const mergeLegs = createMergeLegs({
+		clientName: 'db',
+		normalizeStopName: normalizeDbStopName
+	}, {
+		clientName: 'vbb',
+		normalizeStopName: normalizeVbbStopName
+	})
+	const actualMergedRE5 = mergeLegs(dbRE5, vbbRE5)
+	t.deepEqual(actualMergedRE5, mergedRE5, 'merged leg is equal')
+	t.end()
+})
+
+
+
+test('findLegInAnother works', async (t) => {
 	const res = await db.journeys(potsdamerPlatz, südkreuz, {
 		results: 1, stopovers: true, tickets: false
 	})
 	const [journey] = res.journeys
 	const dbLeg = journey.legs.find(leg => leg.line) // find non-walking leg
-	ok(dbLeg, 'missing test prerequisite: DB leg')
+	t.ok(dbLeg, 'prerequisite: missing non-walking DB leg')
 
 	const findLegInAnother = createFindLeg({
 		clientName: 'db',
@@ -57,15 +63,12 @@ console.info('merge works fine')
 		normalizeLineName: normalizeVbbLineName
 	})
 	const vbbLeg = await findLegInAnother(dbLeg)
+	t.ok(vbbLeg, 'matching worked')
 
 	const vbbLineName = normalizeVbbLineName(vbbLeg.line.name, vbbLeg.line)
 	const dbLineName = normalizeDbLineName(dbLeg.line.name, dbLeg.line)
-	strictEqual(vbbLineName, dbLineName, 'line names not equal')
+	t.equal(vbbLineName, dbLineName, 'line names are equal')
 	// todo: more assertions
 
-	console.info('findLegInAnother works')
-})()
-.catch((err) => {
-	console.error(err)
-	process.exitCode = 1
+	t.end()
 })
