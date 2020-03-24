@@ -49,7 +49,8 @@ const createFindLeg = (A, B) => {
 
 		const nearby = await hafasB.nearby(stopA.location, {
 			poi: false,
-			results: 10
+			results: 10,
+			subStops: false, entrances: false, linesOfStops: false,
 		})
 		debug('hafasB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
 
@@ -188,6 +189,7 @@ const createFindLeg = (A, B) => {
 		})
 		let iterations = 0
 		for await (const deps of collectDepsB(firstStopB.id, depA - minute)) {
+			if (deps.length === 0) debug('0 departures')
 			// todo: parallelize this!
 			for (const depB of deps) {
 				debug('legB candidate', depB.tripId, depB.line.name)
