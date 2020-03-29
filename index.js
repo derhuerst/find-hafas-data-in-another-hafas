@@ -4,9 +4,9 @@ const _distance = require('@turf/distance').default
 const {point} = require('@turf/helpers')
 const debug = require('debug')('find-hafas-leg-in-another-hafas')
 const createCollectDeps = require('hafas-collect-departures-at')
-const createMatchStopOrStation = require('./lib/match-stop-or-station')
-const createMatchLineName = require('./lib/match-line-by-name')
-const createMatchStopover = require('./lib/match-stopover')
+const createMatchStopOrStation = require('./match-stop-or-station')
+const createMatchLine = require('./match-line')
+const createMatchStopover = require('./match-stopover')
 const legFromTrip = require('./lib/leg-from-trip')
 const legFromDep = require('./lib/leg-from-dep')
 const {plannedDepartureOf, plannedArrivalOf} = require('./lib/helpers')
@@ -39,7 +39,7 @@ const createFindLeg = (A, B) => {
 	} = B
 
 	const matchStopOrStation = createMatchStopOrStation(clientNameA, normalizeNameA, clientNameB, normalizeNameB)
-	const matchLineName = createMatchLineName(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
+	const matchLine = createMatchLine(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
 
 	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
 	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
@@ -194,7 +194,7 @@ const createFindLeg = (A, B) => {
 			for (const depB of deps) {
 				debug('legB candidate', depB.tripId, depB.line.name)
 
-				if (!matchLineName(legA.line, depB.line)) {
+				if (!matchLine(legA.line, depB.line)) {
 					debug('matching by line name failed', legA.line, depB.line)
 					continue
 				}

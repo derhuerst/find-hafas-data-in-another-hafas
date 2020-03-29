@@ -2,8 +2,8 @@
 
 const {deepStrictEqual} = require('assert')
 const omit = require('lodash/omit')
-const createMatchStop = require('./lib/match-stop-or-station')
-const createMatchStopover = require('./lib/match-stopover')
+const createMatchStop = require('./match-stop-or-station')
+const createMatchStopover = require('./match-stopover')
 const {plannedDepartureOf} = require('./lib/helpers')
 
 // todo: this fails with unicode

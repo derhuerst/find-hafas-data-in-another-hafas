@@ -5,6 +5,9 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
+		"match-line.js",
+		"match-stop-or-station.js",
+		"match-stopover.js",
 		"merge.js",
 		"lib",
 		"example"

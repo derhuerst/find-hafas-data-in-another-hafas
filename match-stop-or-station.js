@@ -1,8 +1,8 @@
 'use strict'
 
-const createMatchByLocalId = require('./match-stop-or-station-by-local-id')
-const createMatchByStableId = require('./match-stop-or-station-by-stable-id')
-const createMatchByName = require('./match-stop-or-station-by-name')
+const createMatchByLocalId = require('./lib/match-stop-or-station-by-local-id')
+const createMatchByStableId = require('./lib/match-stop-or-station-by-stable-id')
+const createMatchByName = require('./lib/match-stop-or-station-by-name')
 
 const createMatchByStopOrStation = (srcNameA, normalizeNameA, srcNameB, normalizeNameB) => {
 	const matchByLocalId = createMatchByLocalId(srcNameA, srcNameB)
