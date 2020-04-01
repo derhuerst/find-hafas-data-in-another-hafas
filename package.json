@@ -1,7 +1,7 @@
 {
 	"name": "find-hafas-data-in-another-hafas",
 	"description": "Find data from one HAFAS endpoint in another one.",
-	"version": "3.3.0",
+	"version": "4.0.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
@@ -16,7 +16,10 @@
 		"example"
 	],
 	"keywords": [
-		"todo"
+		"hafas",
+		"hafas-client",
+		"public transport",
+		"transit"
 	],
 	"author": "Jannis R <mail@jannisr.de>",
 	"homepage": "https://github.com/derhuerst/find-hafas-data-in-another-hafas",
