@@ -17,6 +17,7 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('./normalize-vbb-names')
 
+const mergeIds = require('../lib/merge-ids')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
 
@@ -27,6 +28,19 @@ const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
 
 const test = tapePromise(tape)
+
+test('mergeIds works', (t) => {
+	const a = {foo: 1, foos: {c: 3}}
+	const b = {foo: 2, foos: {a: 5, d: 4}}
+
+	t.deepEqual(mergeIds('foo', 'a', null, 'b', null), {})
+	t.deepEqual(mergeIds('foo', 'a', a, 'b', null), {a: 1, c: 3})
+	t.deepEqual(mergeIds('foo', 'a', null, 'b', b), {a: 5, b: 2, d: 4})
+	t.deepEqual(mergeIds('foo', 'a', a, 'b', b), {a: 1, b: 2, c: 3, d: 4})
+	t.end()
+})
+
+// todo: test lib/merge-stop
 
 test('mergeLeg works', (t) => {
 	const mergeLegs = createMergeLeg({

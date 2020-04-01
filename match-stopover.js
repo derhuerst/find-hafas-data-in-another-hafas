@@ -1,14 +1,21 @@
 'use strict'
 
-const createMatchStopover = (matchStopOrStation, plannedWhen) => {
+const {plannedDepartureOf, plannedArrivalOf} = require('./lib/helpers')
+
+const createMatchStopover = (matchStopOrStation) => {
 	const matchStopover = (stopoverA) => {
 		const matchStopA = matchStopOrStation(stopoverA.stop)
-		const whenA = plannedWhen(stopoverA)
+		const depA = plannedDepartureOf(stopoverA)
+		const arrA = plannedArrivalOf(stopoverA)
 
 		const matchStopover = (stopoverB) => {
 			if (!matchStopA(stopoverB.stop)) return false
-			const whenB = plannedWhen(stopoverB)
-			return whenB !== null && whenB === whenA
+			const depB = plannedDepartureOf(stopoverB)
+			const arrB = plannedArrivalOf(stopoverB)
+			return (
+				(depB !== null && depB === depA) ||
+				(arrB !== null && arrB === arrA)
+			)
 		}
 		return matchStopover
 	}
