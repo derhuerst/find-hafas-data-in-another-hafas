@@ -15,32 +15,32 @@ const distance = (lA, lB) => {
 
 const createFindStop = (A, B) => {
 	const {
-		clientName: clientNameA,
+		endpointName: endpNameA,
 		normalizeStopName: normalizeStopNameA,
 	} = A
 	const {
-		clientName: clientNameB,
-		hafas: hafasB,
+		endpointName: endpNameB,
+		client: clientB,
 		normalizeStopName: normalizeStopNameB,
 	} = B
 
-	const matchStopOrStation = createMatchStopOrStation(clientNameA, normalizeStopNameA, clientNameB, normalizeStopNameB)
+	const matchStopOrStation = createMatchStopOrStation(A, B)
 
 	const findStopByName = async (stopA) => {
 		debug('findStopByName', stopA.id, stopA.name)
 
-		const nearby = await hafasB.nearby(stopA.location, {
+		const nearby = await clientB.nearby(stopA.location, {
 			poi: false,
 			results: 10,
 			subStops: false, entrances: false, linesOfStops: false,
 		})
-		debug('hafasB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
+		debug('clientB.nearby()', stopA.location, nearby.map(loc => [loc.id, loc.name]))
 
 		const matchA = matchStopOrStation(stopA)
 		return nearby.find(matchA) || null
 
 		// todo
-		// const fuzzy = await hafasB.locations(stopA.name, {
+		// const fuzzy = await clientB.locations(stopA.name, {
 		// 	addresses: false, poi: false
 		// })
 	}
@@ -49,13 +49,13 @@ const createFindStop = (A, B) => {
 		debug('findStopById', stopA.id, stopA.ids, stopA.name)
 		const idsA = stopA.ids || {}
 		const idA = (
-			idsA[clientNameB] ||
-			idsA[clientNameB.toLowerCase()] ||
-			idsA[clientNameB.toUpperCase()] ||
+			idsA[endpNameB] ||
+			idsA[endpNameB.toLowerCase()] ||
+			idsA[endpNameB.toUpperCase()] ||
 			stopA.id
 		)
 		try {
-			const exact = await hafasB.stop(idA)
+			const exact = await clientB.stop(idA)
 			return distance(exact.location, stopA.location) < .2 ? exact : null
 		} catch (err) {
 			if (err && err.isHafasError) return null
@@ -68,25 +68,25 @@ const createFindStop = (A, B) => {
 
 		let sB = await findStopById(sA)
 		if (sB) {
-			debug('matched by stop ID with', clientNameB, sB.id, sB.ids || {}, sB.name)
+			debug('matched by stop ID with', endpNameB, sB.id, sB.ids || {}, sB.name)
 			return sB
 		}
 		if (sA.station) {
 			sB = await findStopById(sA.station)
 			if (sB) {
-				debug('matched by station ID with', clientNameB, sB.id, sB.ids || {}, sB.name)
+				debug('matched by station ID with', endpNameB, sB.id, sB.ids || {}, sB.name)
 				return sB
 			}
 		}
 		sB = await findStopByName(sA)
 		if (sB) {
-			debug('matched by name with', clientNameB, sB.id, sB.name)
+			debug('matched by name with', endpNameB, sB.id, sB.name)
 			return sB
 		}
 		if (sA.station) {
 			sB = await findStopByName(sA.station)
 			if (sB) {
-				debug('matched by station name with', clientNameB, sB.id, sB.name)
+				debug('matched by station name with', endpNameB, sB.id, sB.name)
 				return sB
 			}
 		}

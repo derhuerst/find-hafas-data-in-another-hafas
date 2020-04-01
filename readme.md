@@ -44,18 +44,18 @@ const normalizeName = name => str.toLowerCase().replace(/\s/g, '')
 
 const dbHafas = createDbHafas('find-db-hafas-leg-in-another-hafas example')
 const dbEndpoint = {
-	// The client name should be URL-safe & stable, it will be used to compute
+	// The endpoint name should be URL-safe & stable, it will be used to compute
 	// IDs to be matched against other IDs.
-	clientName: 'db',
-	hafas: dbHafas,
+	endpointName: 'db',
+	client: dbHafas,
 	normalizeStopName: normalizeName,
 	normalizeLineName: normalizeName,
 }
 
 const vbbHafas = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
 const vbbEndpoint = {
-	clientName: 'vbb',
-	hafas: vbbHafas,
+	endpointName: 'vbb',
+	client: vbbHafas,
 	normalizeStopName: normalizeName,
 	normalizeLineName: normalizedName,
 }
@@ -100,8 +100,8 @@ All of these functions expect the two endpoints to be specified as follows:
 
 ```
 {
-	clientName: 'oebb', // a *stable* & URL-safe identifier for the endpoint
-	hafas: …, // a hafas-client@5-compatible API client
+	endpointName: 'oebb', // a *stable* & URL-safe identifier for the endpoint
+	client: …, // a hafas-client@5-compatible API client
 	// These should return URL-safe, lower-case versions of stop/line names, with
 	// as little meaningless/local additions (e.g. "Bus" or "Bhf") as possible.
 	// The results will be used to match stops/lines across endpoints!

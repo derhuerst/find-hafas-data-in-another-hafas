@@ -30,10 +30,10 @@ const test = tapePromise(tape)
 
 test('mergeLeg works', (t) => {
 	const mergeLegs = createMergeLeg({
-		clientName: 'db',
+		endpointName: 'db',
 		normalizeStopName: normalizeDbStopName
 	}, {
-		clientName: 'vbb',
+		endpointName: 'vbb',
 		normalizeStopName: normalizeVbbStopName
 	})
 	const actualMergedRE5Leg = mergeLegs(dbRE5Leg, vbbRE5Leg)
@@ -52,13 +52,13 @@ test('findLegInAnother works', async (t) => {
 	t.ok(dbLeg, 'prerequisite: missing non-walking DB leg')
 
 	const findLegInAnother = createFindLeg({
-		clientName: 'db',
-		hafas: db,
+		endpointName: 'db',
+		client: db,
 		normalizeStopName: normalizeDbStopName,
 		normalizeLineName: normalizeDbLineName
 	}, {
-		clientName: 'vbb',
-		hafas: vbb,
+		endpointName: 'vbb',
+		client: vbb,
 		normalizeStopName: normalizeVbbStopName,
 		normalizeLineName: normalizeVbbLineName
 	})
@@ -124,7 +124,7 @@ const legA = {
 }
 
 test('findLegInAnother picks the right index', async (t) => {
-	const hafasB = {
+	const clientB = {
 		stop: async (id) => {
 			if (id === foo.id) return foo
 			if (id === bar.id) return bar
@@ -149,13 +149,13 @@ test('findLegInAnother picks the right index', async (t) => {
 
 	const normalizeName = n => n.toLowerCase()
 	const findLegInAnother = createFindLeg({
-		clientName: 'A',
-		hafas: db,
+		endpointName: 'A',
+		client: db,
 		normalizeStopName: normalizeName,
 		normalizeLineName: normalizeName
 	}, {
-		clientName: 'B',
-		hafas: hafasB,
+		endpointName: 'B',
+		client: clientB,
 		normalizeStopName: normalizeName,
 		normalizeLineName: normalizeName
 	})

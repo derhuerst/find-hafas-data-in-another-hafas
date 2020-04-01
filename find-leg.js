@@ -17,20 +17,20 @@ const nonEmptyStr = str => 'string' === typeof str && str.length > 0
 
 const createFindLeg = (A, B) => {
 	const {
-		clientName: clientNameA,
-		hafas: hafasA,
+		endpointName: endpNameA,
+		client: clientA,
 		normalizeStopName: normalizeNameA,
 		normalizeLineName: normalizeLineNameA
 	} = A
 	const {
-		clientName: clientNameB,
-		hafas: hafasB,
+		endpointName: endpNameB,
+		client: clientB,
 		normalizeStopName: normalizeNameB,
 		normalizeLineName: normalizeLineNameB
 	} = B
 
-	const matchStopOrStation = createMatchStopOrStation(clientNameA, normalizeNameA, clientNameB, normalizeNameB)
-	const matchLine = createMatchLine(clientNameA, normalizeLineNameA, clientNameB, normalizeLineNameB)
+	const matchStopOrStation = createMatchStopOrStation(A, B)
+	const matchLine = createMatchLine(A, B)
 
 	const matchDep = createMatchStopover(matchStopOrStation, plannedDepartureOf)
 	const matchArr = createMatchStopover(matchStopOrStation, plannedArrivalOf)
@@ -64,21 +64,21 @@ const createFindLeg = (A, B) => {
 		const matchArrA = matchArr(lastStopoverA)
 
 		// try to pass the trip ID from HAFAS A into HAFAS B
-		if (hafasB.trip) {
+		if (clientB.trip) {
 			try {
-				const tripB = await hafasB.trip(legA.tripId, legA.line.name, {
+				const tripB = await clientB.trip(legA.tripId, legA.line.name, {
 					stopovers: true, remarks: false
 					// todo: `language`?
 				})
 
 				if (!Array.isArray(tripB.stopovers)) {
-					throw new Error(`${clientNameB} HAFAS didn't return stopovers`)
+					throw new Error(`${endpNameB} client didn't return stopovers`)
 				}
 				const depI = tripB.stopovers.findIndex(matchDepA)
 				if (depI < 0) throw new Error('first stopover of tripB not matched')
 				const arrI = tripB.stopovers.slice(depI + 1).findIndex(matchArrA)
 				if (depI >= 0 && arrI >= 0) {
-					debug('match by trip ID with', clientNameB, tripB.id, tripB.line.name)
+					debug('match by trip ID with', endpNameB, tripB.id, tripB.line.name)
 					return legFromTrip(tripB, depI, arrI)
 				}
 			} catch (err) {
@@ -105,10 +105,10 @@ const createFindLeg = (A, B) => {
 		debug('lastStopB', lastStopB.id, lastStopB.name)
 
 		// Query departures at firstStopB in direction of lastStopB.
-		const collectDepsB = createCollectDeps(hafasB.departures, {
+		const collectDepsB = createCollectDeps(clientB.departures, {
 			direction: lastStopB.id,
 			remarks: false,
-			stopovers: true // todo: fall back to `hafasB.trip(dep.tripId)`?
+			stopovers: true // todo: fall back to `clientB.trip(dep.tripId)`?
 		})
 		let iterations = 0
 		for await (const deps of collectDepsB(firstStopB.id, depA - minute)) {
@@ -134,7 +134,7 @@ const createFindLeg = (A, B) => {
 				arrI += depI + 1
 
 				// todo: fahrtNr? intermediate stops?
-				debug('matched with', clientNameB, depB.tripId, depB.line.name)
+				debug('matched with', endpNameB, depB.tripId, depB.line.name)
 				return legFromDep(depB, depI, arrI)
 			}
 

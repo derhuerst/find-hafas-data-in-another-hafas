@@ -1,6 +1,13 @@
 'use strict'
 
-const createMatchByLineName = (srcNameA, normalizeLineNameA, srcNameB, normalizeLineNameB) => {
+const createMatchByLineName = (A, B) => {
+	const {
+		normalizeLineName: normalizeLineNameA,
+	} = A
+	const {
+		normalizeLineName: normalizeLineNameB,
+	} = B
+
 	const matchByLineName = (lineA, lineB) => {
 		const nameA = normalizeLineNameA(lineA.name, lineA)
 		const nameB = normalizeLineNameB(lineB.name, lineB)

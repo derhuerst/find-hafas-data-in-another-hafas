@@ -9,14 +9,14 @@ const {plannedDepartureOf} = require('./lib/helpers')
 // todo: this fails with unicode
 const upperCase = str => str[0].toUpperCase() + str.slice(1)
 
-const mergeIds = (key, clientNameA, a, clientNameB, b) => {
+const mergeIds = (key, endpNameA, a, endpNameB, b) => {
 	const pluralKey = key + 's'
 	const ids = {
 		...(a && a[pluralKey] || {}),
 		...(b && b[pluralKey] || {})
 	}
-	if (a && a[key]) ids[clientNameA] = a[key]
-	if (b && b[key]) ids[clientNameB] = b[key]
+	if (a && a[key]) ids[endpNameA] = a[key]
+	if (b && b[key]) ids[endpNameB] = b[key]
 	return ids
 }
 
@@ -27,15 +27,15 @@ deepStrictEqual(mergeIds('foo', 'a', a, 'b', null), {a: 1, c: 3})
 deepStrictEqual(mergeIds('foo', 'a', null, 'b', b), {a: 5, b: 2, d: 4})
 deepStrictEqual(mergeIds('foo', 'a', a, 'b', b), {a: 1, b: 2, c: 3, d: 4})
 
-const mergeStop = (clientNameA, stopA, clientNameB, stopB) => {
-	const ids = mergeIds('id', clientNameA, stopA, clientNameB, stopB)
+const mergeStop = (endpNameA, stopA, endpNameB, stopB) => {
+	const ids = mergeIds('id', endpNameA, stopA, endpNameB, stopB)
 	if (!stopB) return {...stopA, ids}
 	if (!stopA) return {...stopB, id: null, ids}
 	return {
 		// todo: additional stopB props?
 		...omit(stopA, ['station']),
 		ids,
-		station: stopA.station ? mergeStop(clientNameA, stopA.station, clientNameB, stopB.station) : null
+		station: stopA.station ? mergeStop(endpNameA, stopA.station, endpNameB, stopB.station) : null
 	}
 }
 
@@ -108,14 +108,14 @@ const mergeArr = mergeWhen('arrival')
 
 const createMergeLeg = (A, B) => (legA, legB) => {
 	const {
-		clientName: clientNameA,
+		endpointName: endpNameA,
 		normalizeStopName: normalizeStopNameA,
 	} = A
 	const {
-		clientName: clientNameB,
+		endpointName: endpNameB,
 		normalizeStopName: normalizeStopNameB,
 	} = B
-	const matchStop = createMatchStop(clientNameA, normalizeStopNameA, clientNameB, normalizeStopNameB)
+	const matchStop = createMatchStop(A, B)
 	const matchStopover = createMatchStopover(matchStop, plannedDepartureOf)
 
 	const stopovers = legA.stopovers.map((stA) => {
@@ -123,7 +123,7 @@ const createMergeLeg = (A, B) => (legA, legB) => {
 		if (!stB) return stA
 		return {
 			...stA,
-			stop: mergeStop(clientNameA, stA.stop, clientNameB, stB.stop),
+			stop: mergeStop(endpNameA, stA.stop, endpNameB, stB.stop),
 			...mergeDep(stA, stB),
 			...mergeArr(stA, stB)
 		}
@@ -132,16 +132,16 @@ const createMergeLeg = (A, B) => (legA, legB) => {
 	return {
 		...legA,
 
-		tripIds: mergeIds('tripId', clientNameA, legA, clientNameB, legB),
+		tripIds: mergeIds('tripId', endpNameA, legA, endpNameB, legB),
 		line: {
 			...legA.line,
-			fahrtNrs: mergeIds('fahrtNr', clientNameA, legA.line, clientNameB, legB.line)
+			fahrtNrs: mergeIds('fahrtNr', endpNameA, legA.line, endpNameB, legB.line)
 		},
 
-		origin: mergeStop(clientNameA, legA.origin, clientNameB, legB.origin),
+		origin: mergeStop(endpNameA, legA.origin, endpNameB, legB.origin),
 		...mergeDep(legA, legB),
 
-		destination: mergeStop(clientNameA, legA.destination, clientNameB, legB.destination),
+		destination: mergeStop(endpNameA, legA.destination, endpNameB, legB.destination),
 		...mergeArr(legA, legB),
 
 		stopovers,

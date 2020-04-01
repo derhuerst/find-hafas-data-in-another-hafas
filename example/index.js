@@ -13,33 +13,30 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('../test/normalize-vbb-names')
 
-const dbName = 'db'
-const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
-const vbbName = 'vbb'
-const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
-
-const findLegInAnother = createFindLeg({
-	clientName: 'db',
-	hafas: db,
+const dbHafas = createDbHafas('find-db-hafas-leg-in-another-hafas example')
+const db = {
+	// The client name should be URL-safe & stable, it will be used to compute
+	// IDs to be matched against other IDs.
+	endpointName: 'db',
+	client: dbHafas,
 	normalizeStopName: normalizeDbStopName,
-	normalizeLineName: normalizeDbLineName
-}, {
-	clientName: 'vbb',
-	hafas: vbb,
+	normalizeLineName: normalizeDbLineName,
+}
+
+const vbbHafas = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
+const vbb = {
+	endpointName: 'vbb',
+	client: vbbHafas,
 	normalizeStopName: normalizeVbbStopName,
-	normalizeLineName: normalizeVbbLineName
-})
-const mergeLegs = createMergeLeg({
-	clientName: dbName,
-	normalizeStopName: normalizeDbStopName
-}, {
-	clientName: vbbName,
-	normalizeStopName: normalizeVbbStopName
-})
+	normalizeLineName: normalizeVbbLineName,
+}
+
+const findLegInAnother = createFindLeg(db, vbb)
+const mergeLegs = createMergeLeg(db, vbb)
 
 const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
-db.journeys(potsdamerPlatz, südkreuz, {results: 1, stopovers: true, tickets: false})
+dbHafas.journeys(potsdamerPlatz, südkreuz, {results: 1, stopovers: true, tickets: false})
 .then(async (res) => {
 	const [journey] = res.journeys
 
