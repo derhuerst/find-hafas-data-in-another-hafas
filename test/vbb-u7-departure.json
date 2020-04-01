@@ -1,0 +1,247 @@
+{
+	"tripId": "1|32940|12|86|1062020",
+	"stop": {
+		"type": "stop",
+		"id": "900000016202",
+		"name": "U Südstern",
+		"location": {
+			"type": "location",
+			"id": "900016202",
+			"latitude": 52.489219,
+			"longitude": 13.407681
+		},
+		"products": {
+			"suburban": false,
+			"subway": true,
+			"tram": false,
+			"bus": true,
+			"ferry": false,
+			"express": false,
+			"regional": false
+		}
+	},
+	"when": "2020-06-01T09:03:00+02:00",
+	"plannedWhen": "2020-06-01T09:03:00+02:00",
+	"delay": null,
+	"platform": "A",
+	"plannedPlatform": "A",
+	"direction": "U Rudow",
+	"line": {
+		"type": "line",
+		"id": "u7",
+		"fahrtNr": "25280",
+		"name": "U7",
+		"public": true,
+		"adminCode": "BVU",
+		"mode": "train",
+		"product": "subway",
+		"operator": {
+			"type": "operator",
+			"id": "berliner-verkehrsbetriebe",
+			"name": "Berliner Verkehrsbetriebe"
+		},
+		"symbol": "U",
+		"nr": 7,
+		"metro": false,
+		"express": false,
+		"night": false
+	},
+	"remarks": [
+		{
+			"type": "hint",
+			"code": "bf",
+			"text": "barrier-free"
+		},
+		{
+			"type": "hint",
+			"code": "FB",
+			"text": "Bicycle conveyance"
+		},
+		{
+			"id": "75748",
+			"type": "warning",
+			"summary": ".Fahrplandaten in der Zukunft teilweise noch nicht endgültig",
+			"text": "Bitte überprüfen Sie ihre Verbindung einige Tage vor Fahrtantritt. Die Daten im von Ihnen abgefragten Zeitraum stehen heute noch nicht für alle Linien aktuell zur Verfügung.",
+			"icon": {
+				"type": "HIM0",
+				"title": null
+			},
+			"priority": 100,
+			"category": null,
+			"products": {
+				"suburban": true,
+				"subway": true,
+				"tram": true,
+				"bus": true,
+				"ferry": true,
+				"express": true,
+				"regional": true
+			},
+			"validFrom": "2020-04-19T02:00:00+02:00",
+			"validUntil": "2020-12-12T23:59:00+01:00",
+			"modified": "2020-04-01T18:11:25+02:00"
+		}
+	],
+	"nextStopovers": [
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000016202",
+				"name": "U Südstern",
+				"location": {
+					"type": "location",
+					"id": "900016202",
+					"latitude": 52.489219,
+					"longitude": 13.407681
+				},
+				"products": {
+					"suburban": false,
+					"subway": true,
+					"tram": false,
+					"bus": true,
+					"ferry": false,
+					"express": false,
+					"regional": false
+				}
+			},
+			"arrival": null,
+			"plannedArrival": null,
+			"arrivalDelay": null,
+			"arrivalPlatform": "A",
+			"plannedArrivalPlatform": "A",
+			"departure": "2020-06-01T09:03:00+02:00",
+			"plannedDeparture": "2020-06-01T09:03:00+02:00",
+			"departureDelay": null,
+			"departurePlatform": "A",
+			"plannedDeparturePlatform": "A"
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000078101",
+				"name": "U Hermannplatz",
+				"location": {
+					"type": "location",
+					"id": "900078101",
+					"latitude": 52.486954,
+					"longitude": 13.424724
+				},
+				"products": {
+					"suburban": false,
+					"subway": true,
+					"tram": false,
+					"bus": false,
+					"ferry": false,
+					"express": false,
+					"regional": false
+				}
+			},
+			"arrival": "2020-06-01T09:05:00+02:00",
+			"plannedArrival": "2020-06-01T09:05:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000078102",
+				"name": "U Rathaus Neukölln",
+				"location": {
+					"type": "location",
+					"id": "900078102",
+					"latitude": 52.481147,
+					"longitude": 13.43481
+				},
+				"products": {
+					"suburban": false,
+					"subway": true,
+					"tram": false,
+					"bus": true,
+					"ferry": false,
+					"express": false,
+					"regional": false
+				}
+			},
+			"arrival": "2020-06-01T09:07:00+02:00",
+			"plannedArrival": "2020-06-01T09:07:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": "B",
+			"plannedArrivalPlatform": "B",
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": "B",
+			"plannedDeparturePlatform": "B"
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000078103",
+				"name": "U Karl-Marx-Str.",
+				"location": {
+					"type": "location",
+					"id": "900078103",
+					"latitude": 52.476427,
+					"longitude": 13.439808
+				},
+				"products": {
+					"suburban": false,
+					"subway": true,
+					"tram": false,
+					"bus": true,
+					"ferry": false,
+					"express": false,
+					"regional": false
+				}
+			},
+			"arrival": "2020-06-01T09:08:00+02:00",
+			"plannedArrival": "2020-06-01T09:08:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "900000078272",
+				"name": "S+U Neukölln [U7]",
+				"location": {
+					"type": "location",
+					"id": "900078272",
+					"latitude": 52.468768,
+					"longitude": 13.441912
+				},
+				"products": {
+					"suburban": false,
+					"subway": true,
+					"tram": false,
+					"bus": false,
+					"ferry": false,
+					"express": false,
+					"regional": false
+				}
+			},
+			"arrival": "2020-06-01T09:10:00+02:00",
+			"plannedArrival": "2020-06-01T09:10:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		}
+	]
+}

@@ -91,6 +91,7 @@ console.log('mergedLeg', mergedLeg)
 - `find-h…/find-stop`
 - `find-h…/find-leg`
 - `find-h…/merge-leg`
+- `find-h…/merge-arr-dep`
 
 - `match*` functions identify two items (e.g. two journey legs) from *different* endpoints as equivalent (describing the same thing).
 - Given an item from one endpoint, `find*` functions find the equivalent in the other endpoint.

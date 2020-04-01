@@ -5,6 +5,9 @@ const createVbbHafas = require('vbb-hafas')
 const tape = require('tape')
 const tapePromise = require('tape-promise').default
 
+const dbU7Dep = require('./db-u7-departure.json')
+const vbbU7Dep = require('./vbb-u7-departure.json')
+const mergedU7Dep = require('./merged-u7-departure.json')
 const dbRE5Leg = require('./db-re5-leg.json')
 const vbbRE5Leg = require('./vbb-re5-leg.json')
 const mergedRE5Leg = require('./merged-re5-leg.json')
@@ -18,6 +21,7 @@ const {
 } = require('./normalize-vbb-names')
 
 const mergeIds = require('../lib/merge-ids')
+const {createMergeDeparture} = require('../merge-arr-dep')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
 
@@ -41,6 +45,19 @@ test('mergeIds works', (t) => {
 })
 
 // todo: test lib/merge-stop
+
+test('mergeDeparture works', (t) => {
+	const mergeDep = createMergeDeparture({
+		endpointName: 'db',
+		normalizeStopName: normalizeDbStopName,
+	}, {
+		endpointName: 'vbb',
+		normalizeStopName: normalizeVbbStopName,
+	})
+	const actualMergedU7Dep = mergeDep(dbU7Dep, vbbU7Dep)
+	t.deepEqual(actualMergedU7Dep, mergedU7Dep, 'merged departure is equal')
+	t.end()
+})
 
 test('mergeLeg works', (t) => {
 	const mergeLegs = createMergeLeg({

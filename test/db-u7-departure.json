@@ -1,0 +1,213 @@
+{
+	"tripId": "1|1066360|12|80|1062020",
+	"stop": {
+		"type": "stop",
+		"id": "730928",
+		"name": "Südstern (U), Berlin",
+		"location": {
+			"type": "location",
+			"id": "730928",
+			"latitude": 52.489066,
+			"longitude": 13.407879
+		},
+		"products": {
+			"nationalExpress": false,
+			"national": false,
+			"regionalExp": false,
+			"regional": false,
+			"suburban": false,
+			"bus": true,
+			"ferry": false,
+			"subway": true,
+			"tram": false,
+			"taxi": false
+		}
+	},
+	"when": "2020-06-01T09:03:00+02:00",
+	"plannedWhen": "2020-06-01T09:03:00+02:00",
+	"delay": null,
+	"platform": null,
+	"plannedPlatform": null,
+	"direction": "Rudow (U), Berlin",
+	"line": {
+		"type": "line",
+		"id": "7-vbbbvu-7",
+		"fahrtNr": "13272",
+		"name": "U 7",
+		"public": true,
+		"adminCode": "vbbBVU",
+		"mode": "train",
+		"product": "subway",
+		"operator": {
+			"type": "operator",
+			"id": "nahreisezug",
+			"name": "Nahreisezug"
+		}
+	},
+	"remarks": [],
+	"nextStopovers": [
+		{
+			"stop": {
+				"type": "stop",
+				"id": "730928",
+				"name": "Südstern (U), Berlin",
+				"location": {
+					"type": "location",
+					"id": "730928",
+					"latitude": 52.489066,
+					"longitude": 13.407879
+				},
+				"products": {
+					"nationalExpress": false,
+					"national": false,
+					"regionalExp": false,
+					"regional": false,
+					"suburban": false,
+					"bus": true,
+					"ferry": false,
+					"subway": true,
+					"tram": false,
+					"taxi": false
+				}
+			},
+			"arrival": null,
+			"plannedArrival": null,
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": "2020-06-01T09:03:00+02:00",
+			"plannedDeparture": "2020-06-01T09:03:00+02:00",
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "732102",
+				"name": "Hermannplatz (U), Berlin",
+				"location": {
+					"type": "location",
+					"id": "732102",
+					"latitude": 52.486576,
+					"longitude": 13.424428
+				},
+				"products": {
+					"nationalExpress": false,
+					"national": false,
+					"regionalExp": false,
+					"regional": false,
+					"suburban": false,
+					"bus": true,
+					"ferry": false,
+					"subway": true,
+					"tram": false,
+					"taxi": false
+				}
+			},
+			"arrival": "2020-06-01T09:05:00+02:00",
+			"plannedArrival": "2020-06-01T09:05:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "732103",
+				"name": "Rathaus Neukölln (U), Berlin",
+				"location": {
+					"type": "location",
+					"id": "732103",
+					"latitude": 52.481389,
+					"longitude": 13.43455
+				},
+				"products": {
+					"nationalExpress": false,
+					"national": false,
+					"regionalExp": false,
+					"regional": false,
+					"suburban": false,
+					"bus": true,
+					"ferry": false,
+					"subway": true,
+					"tram": false,
+					"taxi": false
+				}
+			},
+			"arrival": "2020-06-01T09:07:00+02:00",
+			"plannedArrival": "2020-06-01T09:07:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		},
+		{
+			"stop": {
+				"type": "stop",
+				"id": "728621",
+				"name": "Neukölln [U7] (S+U), Berlin",
+				"location": {
+					"type": "location",
+					"id": "728621",
+					"latitude": 52.468966,
+					"longitude": 13.441777
+				},
+				"products": {
+					"nationalExpress": false,
+					"national": false,
+					"regionalExp": false,
+					"regional": false,
+					"suburban": true,
+					"bus": true,
+					"ferry": false,
+					"subway": true,
+					"tram": false,
+					"taxi": false
+				},
+				"station": {
+					"type": "station",
+					"id": "8089077",
+					"name": "Berlin-Neukölln",
+					"location": {
+						"type": "location",
+						"id": "8089077",
+						"latitude": 52.469434,
+						"longitude": 13.443071
+					},
+					"products": {
+						"nationalExpress": false,
+						"national": false,
+						"regionalExp": false,
+						"regional": false,
+						"suburban": true,
+						"bus": true,
+						"ferry": false,
+						"subway": true,
+						"tram": false,
+						"taxi": false
+					}
+				}
+			},
+			"arrival": "2020-06-01T09:10:00+02:00",
+			"plannedArrival": "2020-06-01T09:10:00+02:00",
+			"arrivalDelay": null,
+			"arrivalPlatform": null,
+			"plannedArrivalPlatform": null,
+			"departure": null,
+			"plannedDeparture": null,
+			"departureDelay": null,
+			"departurePlatform": null,
+			"plannedDeparturePlatform": null
+		}
+	]
+}
