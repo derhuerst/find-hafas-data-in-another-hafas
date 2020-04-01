@@ -42,35 +42,30 @@ const createMergeLegs = require('find-hafas-data-in-another-hafas/merge')
 // - https://github.com/derhuerst/tokenize-vbb-station-name
 const normalizeName = name => str.toLowerCase().replace(/\s/g, '')
 
-// These names should be URL-safe & stable, they will used to compute
-// IDs to be matched against other IDs.
-const dbName = 'db'
-const db = createDbHafas('find-db-hafas-leg-in-another-hafas example')
-const vbbName = 'vbb'
-const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
+const dbHafas = createDbHafas('find-db-hafas-leg-in-another-hafas example')
+const dbEndpoint = {
+	// The client name should be URL-safe & stable, it will be used to compute
+	// IDs to be matched against other IDs.
+	clientName: 'db',
+	hafas: dbHafas,
+	normalizeStopName: normalizeName,
+	normalizeLineName: normalizeName,
+}
 
-const findLegInAnother = createFindLeg({
-	clientName: dbName,
-	hafas: db,
+const vbbHafas = createVbbHafas('find-db-hafas-leg-in-another-hafas example')
+const vbbEndpoint = {
+	clientName: 'vbb',
+	hafas: vbbHafas,
 	normalizeStopName: normalizeName,
-	normalizeLineName: normalizeName
-}, {
-	clientName: vbbName,
-	hafas: vbb,
-	normalizeStopName: normalizeName,
-	normalizeLineName: normalizeName
-})
-const mergeLegs = createMergeLegs({
-	clientName: dbName,
-	normalizeStopName: normalizeName
-}, {
-	clientName: vbbName,
-	normalizeStopName: normalizeName
-})
+	normalizeLineName: normalizedName,
+}
+
+const findLegInAnother = createFindLeg(dbEndpoint, vbbEndpoint)
+const mergeLegs = createMergeLegs(dbEndpoint, vbbEndpoint)
 
 const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
-const res = await db.journeys(potsdamerPlatz, südkreuz, {
+const res = await dbHafas.journeys(potsdamerPlatz, südkreuz, {
 	results: 1, stopovers: true, tickets: false
 })
 const [journey] = res.journeys
@@ -83,6 +78,36 @@ console.log('equivalent VBB leg', leg)
 
 const mergedLeg = mergeLegs(dbLeg, vbbLeg)
 console.log('mergedLeg', mergedLeg)
+```
+
+
+## API
+
+`find-hafas-data-in-another-hafas` provides the following entry points:
+
+- `find-h…/match-line`
+- `find-h…/match-stop-or-station`
+- `find-h…/match-stopover`
+- `find-h…/find-stop`
+- `find-h…/find-leg`
+- `find-h…/merge-leg`
+
+- `match*` functions identify two items (e.g. two journey legs) from *different* endpoints as equivalent (describing the same thing).
+- Given an item from one endpoint, `find*` functions find the equivalent in the other endpoint.
+- `merge*` functions merge two equivalents items found using `find*`.
+
+All of these functions expect the two endpoints to be specified as follows:
+
+```
+{
+	clientName: 'oebb', // a *stable* & URL-safe identifier for the endpoint
+	hafas: …, // a hafas-client@5-compatible API client
+	// These should return URL-safe, lower-case versions of stop/line names, with
+	// as little meaningless/local additions (e.g. "Bus" or "Bhf") as possible.
+	// The results will be used to match stops/lines across endpoints!
+	normalizeStopName: name => normalizedName,
+	normalizeLineName: name => normalizedName,
+}
 ```
 
 

@@ -106,7 +106,7 @@ const mergeWhen = (key) => (stA, stB) => {
 const mergeDep = mergeWhen('departure')
 const mergeArr = mergeWhen('arrival')
 
-const createMergeLegs = (A, B) => (legA, legB) => {
+const createMergeLeg = (A, B) => (legA, legB) => {
 	const {
 		clientName: clientNameA,
 		normalizeStopName: normalizeStopNameA,
@@ -155,4 +155,4 @@ const createMergeLegs = (A, B) => (legA, legB) => {
 	}
 }
 
-module.exports = createMergeLegs
+module.exports = createMergeLeg
