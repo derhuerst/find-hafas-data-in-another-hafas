@@ -5,9 +5,9 @@ const createVbbHafas = require('vbb-hafas')
 const tape = require('tape')
 const tapePromise = require('tape-promise').default
 
-const dbRE5 = require('./db-re5.json')
-const vbbRE5 = require('./vbb-re5.json')
-const mergedRE5 = require('./merged-re5.json')
+const dbRE5Leg = require('./db-re5-leg.json')
+const vbbRE5Leg = require('./vbb-re5-leg.json')
+const mergedRE5Leg = require('./merged-re5-leg.json')
 const {
 	normalizeStopName: normalizeDbStopName,
 	normalizeLineName: normalizeDbLineName
@@ -17,8 +17,8 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('./normalize-vbb-names')
 
-const createMergeLegs = require('../merge')
-const createFindLeg = require('..')
+const createMergeLeg = require('../merge-leg')
+const createFindLeg = require('../find-leg')
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas test')
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas test')
@@ -28,16 +28,16 @@ const südkreuz = '8011113'
 
 const test = tapePromise(tape)
 
-test('merge works', (t) => {
-	const mergeLegs = createMergeLegs({
+test('mergeLeg works', (t) => {
+	const mergeLegs = createMergeLeg({
 		clientName: 'db',
 		normalizeStopName: normalizeDbStopName
 	}, {
 		clientName: 'vbb',
 		normalizeStopName: normalizeVbbStopName
 	})
-	const actualMergedRE5 = mergeLegs(dbRE5, vbbRE5)
-	t.deepEqual(actualMergedRE5, mergedRE5, 'merged leg is equal')
+	const actualMergedRE5Leg = mergeLegs(dbRE5Leg, vbbRE5Leg)
+	t.deepEqual(actualMergedRE5Leg, mergedRE5Leg, 'merged leg is equal')
 	t.end()
 })
 

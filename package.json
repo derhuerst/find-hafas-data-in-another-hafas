@@ -5,11 +5,12 @@
 	"main": "index.js",
 	"files": [
 		"index.js",
-		"find-stop.js",
 		"match-line.js",
 		"match-stop-or-station.js",
 		"match-stopover.js",
-		"merge.js",
+		"find-stop.js",
+		"find-leg.js",
+		"merge-leg.js",
 		"lib",
 		"example"
 	],

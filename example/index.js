@@ -2,8 +2,8 @@
 
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
-const createFindLeg = require('..')
-const createMergeLegs = require('../merge')
+const createFindLeg = require('../find-leg')
+const createMergeLeg = require('../merge-leg')
 const {
 	normalizeStopName: normalizeDbStopName,
 	normalizeLineName: normalizeDbLineName
@@ -29,7 +29,7 @@ const findLegInAnother = createFindLeg({
 	normalizeStopName: normalizeVbbStopName,
 	normalizeLineName: normalizeVbbLineName
 })
-const mergeLegs = createMergeLegs({
+const mergeLegs = createMergeLeg({
 	clientName: dbName,
 	normalizeStopName: normalizeDbStopName
 }, {

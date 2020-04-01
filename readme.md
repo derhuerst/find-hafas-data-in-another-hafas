@@ -33,7 +33,7 @@ npm install find-hafas-data-in-another-hafas
 ```js
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
-const createFindLeg = require('find-hafas-data-in-another-hafas')
+const createFindLeg = require('find-hafas-data-in-another-hafas/find-leg')
 const createMergeLegs = require('find-hafas-data-in-another-hafas/merge')
 
 // Note that, for legs to be matched reliably, you need a more
