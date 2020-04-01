@@ -2,7 +2,7 @@
 
 const _distance = require('@turf/distance').default
 const {point} = require('@turf/helpers')
-const debug = require('debug')('find-hafas-leg-in-another-hafas:find-stop')
+const debug = require('debug')('find-hafas-data-in-another-hafas:find-stop')
 const createMatchStopOrStation = require('./match-stop-or-station')
 
 const distance = (lA, lB) => {

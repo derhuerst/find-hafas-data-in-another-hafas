@@ -1,6 +1,6 @@
 'use strict'
 
-const debug = require('debug')('find-hafas-leg-in-another-hafas')
+const debug = require('debug')('find-hafas-data-in-another-hafas')
 const createCollectDeps = require('hafas-collect-departures-at')
 const createMatchStopOrStation = require('./match-stop-or-station')
 const createMatchLine = require('./match-line')

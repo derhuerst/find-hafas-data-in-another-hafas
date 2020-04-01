@@ -1,10 +1,10 @@
-# find-hafas-leg-in-another-hafas
+# find-hafas-data-in-another-hafas
 
-**Find a journey leg from one HAFAS endpoint in the data of another HAFAS endpoint.**
+**Find data from one HAFAS endpoint in the data of another HAFAS endpoint.**
 
-[![npm version](https://img.shields.io/npm/v/find-hafas-leg-in-another-hafas.svg)](https://www.npmjs.com/package/find-hafas-leg-in-another-hafas)
-[![build status](https://api.travis-ci.org/derhuerst/find-hafas-leg-in-another-hafas.svg?branch=master)](https://travis-ci.org/derhuerst/find-hafas-leg-in-another-hafas)
-![ISC-licensed](https://img.shields.io/github/license/derhuerst/find-hafas-leg-in-another-hafas.svg)
+[![npm version](https://img.shields.io/npm/v/find-hafas-data-in-another-hafas.svg)](https://www.npmjs.com/package/find-hafas-data-in-another-hafas)
+[![build status](https://api.travis-ci.org/derhuerst/find-hafas-data-in-another-hafas.svg?branch=master)](https://travis-ci.org/derhuerst/find-hafas-data-in-another-hafas)
+![ISC-licensed](https://img.shields.io/github/license/derhuerst/find-hafas-data-in-another-hafas.svg)
 [![chat with me on Gitter](https://img.shields.io/badge/chat%20with%20me-on%20gitter-512e92.svg)](https://gitter.im/derhuerst)
 [![support me on Patreon](https://img.shields.io/badge/support%20me-on%20patreon-fa7664.svg)](https://patreon.com/derhuerst)
 
@@ -24,7 +24,7 @@ Public transport providers in Europe often have data about vehicles run by other
 ## Installation
 
 ```shell
-npm install find-hafas-leg-in-another-hafas
+npm install find-hafas-data-in-another-hafas
 ```
 
 
@@ -33,8 +33,8 @@ npm install find-hafas-leg-in-another-hafas
 ```js
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
-const createFindLeg = require('find-hafas-leg-in-another-hafas')
-const createMergeLegs = require('find-hafas-leg-in-another-hafas/merge')
+const createFindLeg = require('find-hafas-data-in-another-hafas')
+const createMergeLegs = require('find-hafas-data-in-another-hafas/merge')
 
 // Note that, for legs to be matched reliably, you need a more
 // sophisticated normalization function. Use e.g.
@@ -95,4 +95,4 @@ console.log('mergedLeg', mergedLeg)
 
 ## Contributing
 
-If you have a question or need support using `find-hafas-leg-in-another-hafas`, please double-check your code and setup first. If you think you have found a bug or want to propose a feature, refer to [the issues page](https://github.com/derhuerst/find-hafas-leg-in-another-hafas/issues).
+If you have a question or need support using `find-hafas-data-in-another-hafas`, please double-check your code and setup first. If you think you have found a bug or want to propose a feature, refer to [the issues page](https://github.com/derhuerst/find-hafas-data-in-another-hafas/issues).
