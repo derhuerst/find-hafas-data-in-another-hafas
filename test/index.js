@@ -24,6 +24,7 @@ const mergeIds = require('../lib/merge-ids')
 const {createMergeDeparture} = require('../merge-arr-dep')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
+const {createFindDeparture} = require('../find-arr-dep')
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas test')
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas test')
@@ -74,6 +75,41 @@ test('mergeLeg works', (t) => {
 
 
 
+const dbEndpoint = {
+	endpointName: 'db',
+	client: db,
+	// todo: serviceArea
+	normalizeStopName: normalizeDbStopName,
+	normalizeLineName: normalizeDbLineName
+}
+const vbbEndpoint = {
+	endpointName: 'vbb',
+	client: vbb,
+	normalizeStopName: normalizeVbbStopName,
+	normalizeLineName: normalizeVbbLineName
+}
+
+test('findDeparture works', async (t) => {
+	const [dbDep] = await db.departures(potsdamerPlatz, {
+		when: '2020-06-01T08:00+02:00', // todo: compute this
+		results: 1, stopovers: true,
+	})
+
+	const findDeparture = createFindDeparture(dbEndpoint, vbbEndpoint)
+	const vbbDep = await findDeparture(dbDep)
+	t.ok(vbbDep, 'matching worked')
+
+	// todo
+	const vbbLineName = normalizeVbbLineName(vbbDep.line.name, vbbDep.line)
+	const dbLineName = normalizeDbLineName(dbDep.line.name, dbDep.line)
+	t.equal(vbbLineName, dbLineName, 'line names are equal')
+	const vbbStopName = normalizeVbbStopName(vbbDep.stop.name)
+	const dbStopName = normalizeDbStopName(dbDep.stop.name)
+	t.equal(vbbStopName, dbStopName, 'stop names are equal')
+
+	t.end()
+})
+
 test('findLegInAnother works', async (t) => {
 	const res = await db.journeys(potsdamerPlatz, südkreuz, {
 		results: 1, stopovers: true, tickets: false
@@ -82,17 +118,7 @@ test('findLegInAnother works', async (t) => {
 	const dbLeg = journey.legs.find(leg => leg.line) // find non-walking leg
 	t.ok(dbLeg, 'prerequisite: missing non-walking DB leg')
 
-	const findLegInAnother = createFindLeg({
-		endpointName: 'db',
-		client: db,
-		normalizeStopName: normalizeDbStopName,
-		normalizeLineName: normalizeDbLineName
-	}, {
-		endpointName: 'vbb',
-		client: vbb,
-		normalizeStopName: normalizeVbbStopName,
-		normalizeLineName: normalizeVbbLineName
-	})
+	const findLegInAnother = createFindLeg(dbEndpoint, vbbEndpoint)
 	const vbbLeg = await findLegInAnother(dbLeg)
 	t.ok(vbbLeg, 'matching worked')
 

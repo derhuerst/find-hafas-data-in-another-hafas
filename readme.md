@@ -90,6 +90,7 @@ console.log('mergedLeg', mergedLeg)
 - `find-h…/match-stopover`
 - `find-h…/find-stop`
 - `find-h…/find-leg`
+- `find-h…/find-arr-dep`
 - `find-h…/merge-leg`
 - `find-h…/merge-arr-dep`
 

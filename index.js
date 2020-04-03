@@ -1,6 +1,10 @@
 'use strict'
 
 const {
+	createFindArrival,
+	createFindDeparture,
+} = require('./find-arr-dep')
+const {
 	createMergeArrival,
 	createMergeDeparture,
 } = require('./merge-arr-dep')
@@ -11,6 +15,8 @@ module.exports = {
 	createMatchStopover: require('./match-stopover'),
 	createFindStop: require('./find-stop'),
 	createFindLeg: require('./find-leg'),
+	createFindArrival,
+	createFindDeparture,
 	createMergeLeg: require('./merge-leg'),
 	createMergeArrival,
 	createMergeDeparture,
