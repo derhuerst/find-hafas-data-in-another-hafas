@@ -1,5 +1,6 @@
 'use strict'
 
+const {DateTime} = require('luxon')
 const createDbHafas = require('db-hafas')
 const createVbbHafas = require('vbb-hafas')
 const tape = require('tape')
@@ -25,6 +26,15 @@ const {createMergeDeparture} = require('../merge-arr-dep')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
 const {createFindDeparture} = require('../find-arr-dep')
+
+const WHEN = DateTime
+.fromMillis(Date.now(), {
+	zone: 'Europe/Berlin',
+	locale: 'de-DE',
+})
+.startOf('week')
+.plus({weeks: 1, hours: 10})
+.toJSDate()
 
 const db = createDbHafas('find-db-hafas-leg-in-another-hafas test')
 const vbb = createVbbHafas('find-db-hafas-leg-in-another-hafas test')
@@ -91,7 +101,7 @@ const vbbEndpoint = {
 
 test('findDeparture works', async (t) => {
 	const [dbDep] = await db.departures(potsdamerPlatz, {
-		when: '2020-06-01T08:00+02:00', // todo: compute this
+		when: WHEN,
 		results: 1, stopovers: true,
 	})
 
