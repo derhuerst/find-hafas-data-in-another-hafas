@@ -8,7 +8,7 @@ const {
 	mergeDeparture: mergeDep,
 } = require('./lib/merge-when')
 const createMergeStopover = require('./lib/merge-stopover')
-const mergeStop = require('./lib/merge-stop')
+const mergeStop = require('./merge-stop')
 const mergeIds = require('./lib/merge-ids')
 
 const createMergeLeg = (A, B) => (legA, legB) => {

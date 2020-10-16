@@ -1,7 +1,7 @@
 'use strict'
 
 const omit = require('lodash/omit')
-const mergeIds = require('./merge-ids')
+const mergeIds = require('./lib/merge-ids')
 
 const mergeStop = (endpNameA, stopA, endpNameB, stopB) => {
 	const ids = mergeIds('id', endpNameA, stopA, endpNameB, stopB)

@@ -11,6 +11,7 @@
 		"find-stop.js",
 		"find-leg.js",
 		"find-arr-dep.js",
+		"merge-stop.js",
 		"merge-leg.js",
 		"merge-arr-dep.js",
 		"lib",

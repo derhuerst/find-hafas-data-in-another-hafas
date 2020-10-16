@@ -10,7 +10,7 @@ const createMatchStopover = require('./match-stopover')
 const createMergeStopover = require('./lib/merge-stopover')
 const createMergeStopovers = require('./lib/merge-stopovers')
 const mergeIds = require('./lib/merge-ids')
-const mergeStop = require('./lib/merge-stop')
+const mergeStop = require('./merge-stop')
 
 const mergeWhen = createMergeWhen({
 	cancelled: 'cancelled',
