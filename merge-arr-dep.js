@@ -2,8 +2,8 @@
 
 const {
 	createMergeWhen,
-	mergeArrival: mergeArr,
-	mergeDeparture: mergeDep,
+	createMergeArrival: createMergeArrWhen,
+	createMergeDeparture: createMergeDepWhen,
 } = require('./lib/merge-when')
 const createMatchStop = require('./match-stop-or-station')
 const createMatchStopover = require('./match-stopover')
@@ -12,29 +12,41 @@ const createMergeStopovers = require('./lib/merge-stopovers')
 const mergeIds = require('./lib/merge-ids')
 const createMergeStop = require('./merge-stop')
 
-const mergeWhen = createMergeWhen({
-	cancelled: 'cancelled',
-	when: 'when',
-	plannedWhen: 'plannedWhen',
-	prognosedWhen: 'prognosedWhen',
-	delay: 'delay',
-	platform: 'platform',
-	plannedPlatform: 'plannedPlatform',
-	prognosedPlatform: 'prognosedPlatform',
-	reachable: 'reachable',
-})
-
-const createMergeArrDep = (stopoversKey, A, B) => (arrDepA, arrDepB) => {
+const createMergeArrDep = (stopoversKey, A, B, opt = {}) => (arrDepA, arrDepB) => {
 	const {
 		endpointName: endpNameA,
-		normalizeStopName: normalizeStopNameA,
 	} = A
 	const {
 		endpointName: endpNameB,
-		normalizeStopName: normalizeStopNameB,
 	} = B
 
+	const {
+		preferB,
+	} = {
+		preferB: {},
+		...opt,
+	}
+	const {
+		when: mergeWhenPreferB,
+	} = {
+		when: true,
+		...preferB,
+	}
+
+	const mergeWhen = createMergeWhen({
+		cancelled: 'cancelled',
+		when: 'when',
+		plannedWhen: 'plannedWhen',
+		prognosedWhen: 'prognosedWhen',
+		delay: 'delay',
+		platform: 'platform',
+		plannedPlatform: 'plannedPlatform',
+		prognosedPlatform: 'prognosedPlatform',
+		reachable: 'reachable',
+	}, mergeWhenPreferB)
 	const mergeStop = createMergeStop(A, B)
+	const mergeArr = createMergeArrWhen(mergeWhenPreferB)
+	const mergeDep = createMergeDepWhen(mergeWhenPreferB)
 
 	const res = {
 		...arrDepA,
