@@ -8,7 +8,7 @@ const {
 	mergeDeparture: mergeDep,
 } = require('./lib/merge-when')
 const createMergeStopover = require('./lib/merge-stopover')
-const mergeStop = require('./merge-stop')
+const createMergeStop = require('./merge-stop')
 const mergeIds = require('./lib/merge-ids')
 
 const createMergeLeg = (A, B) => (legA, legB) => {
@@ -21,6 +21,7 @@ const createMergeLeg = (A, B) => (legA, legB) => {
 		normalizeStopName: normalizeStopNameB,
 	} = B
 	const matchStop = createMatchStop(A, B)
+	const mergeStop = createMergeStop(A, B)
 	const matchStopover = createMatchStopover(matchStop)
 	const mergeStopover = createMergeStopover(mergeStop, mergeArr, mergeDep, A, B)
 	const mergeStopovers = createMergeStopovers(matchStopover, mergeStopover, A, B)
@@ -34,10 +35,10 @@ const createMergeLeg = (A, B) => (legA, legB) => {
 			fahrtNrs: mergeIds('fahrtNr', endpNameA, legA.line, endpNameB, legB.line)
 		},
 
-		origin: mergeStop(endpNameA, legA.origin, endpNameB, legB.origin),
+		origin: mergeStop(legA.origin, legB.origin),
 		...mergeDep(legA, legB),
 
-		destination: mergeStop(endpNameA, legA.destination, endpNameB, legB.destination),
+		destination: mergeStop(legA.destination, legB.destination),
 		...mergeArr(legA, legB),
 
 		stopovers: mergeStopovers(legA.stopovers, legB.stopovers),
