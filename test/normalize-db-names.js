@@ -29,7 +29,7 @@ const normalizeLineName = (str) => {
 }
 
 strictEqual(normalizeLineName('Bus 142'), '142')
-strictEqual(normalizeLineName('Metro Bus 142'), 'MetroBus142')
+strictEqual(normalizeLineName('Metro Bus 142'), 'metrobus142')
 
 module.exports = {
 	normalizeStopName,
