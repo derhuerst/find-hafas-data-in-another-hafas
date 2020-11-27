@@ -9,6 +9,7 @@ const {
 } = require('./lib/merge-when')
 const createMergeStopover = require('./lib/merge-stopover')
 const createMergeStop = require('./merge-stop')
+const createMergeId = require('./lib/merge-id')
 const mergeIds = require('./lib/merge-ids')
 
 const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
@@ -29,13 +30,16 @@ const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
 	}
 	const {
 		when: mergeWhenPreferB,
+		id: mergeIdPreferB,
 	} = {
 		when: true,
+		id: false,
 		...preferB,
 	}
 
+	const mergeId = createMergeId(mergeIdPreferB)
 	const matchStop = createMatchStop(A, B)
-	const mergeStop = createMergeStop(A, B)
+	const mergeStop = createMergeStop(A, B, opt)
 	const mergeArr = createMergeArrival(mergeWhenPreferB)
 	const mergeDep = createMergeDeparture(mergeWhenPreferB)
 	const matchStopover = createMatchStopover(matchStop)
@@ -45,6 +49,7 @@ const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
 	return {
 		...legA,
 
+		tripId: mergeId(legA.tripId, legB.tripId),
 		tripIds: mergeIds('tripId', endpNameA, legA, endpNameB, legB),
 		line: {
 			...legA.line,

@@ -21,6 +21,7 @@ const {
 	normalizeLineName: normalizeVbbLineName
 } = require('./normalize-vbb-names')
 
+const createMergeId = require('../lib/merge-id')
 const mergeIds = require('../lib/merge-ids')
 const {createMergeDeparture} = require('../merge-arr-dep')
 const createMergeLeg = require('../merge-leg')
@@ -43,6 +44,37 @@ const potsdamerPlatz = '8011118'
 const südkreuz = '8011113'
 
 const test = tapePromise(tape)
+
+test('mergeId works', (t) => {
+	const m = createMergeId
+	t.equal(m(true)(null, 'b'), 'b')
+	t.equal(m(true)(undefined, 'b'), 'b')
+	t.equal(m(true)(null, 0), 0)
+	t.equal(m(true)('a', null), 'a')
+	t.equal(m(true)('a', undefined), 'a')
+	t.equal(m(true)(0, null), 0)
+	t.equal(m(true)('a', 'b'), 'b')
+	t.equal(m(true)(1, 0), 0)
+
+	t.equal(m(false)(null, 'b'), 'b')
+	t.equal(m(false)(undefined, 'b'), 'b')
+	t.equal(m(false)(null, 0), 0)
+	t.equal(m(false)('a', null), 'a')
+	t.equal(m(false)('a', undefined), 'a')
+	t.equal(m(false)(0, null), 0)
+	t.equal(m(false)('a', 'b'), 'a')
+	t.equal(m(false)(0, 1), 0)
+
+	t.equal(m()(null, 'b'), 'b')
+	t.equal(m()(undefined, 'b'), 'b')
+	t.equal(m()(null, 0), 0)
+	t.equal(m()('a', null), 'a')
+	t.equal(m()('a', undefined), 'a')
+	t.equal(m()(0, null), 0)
+	t.equal(m()('a', 'b'), 'a')
+	t.equal(m()(0, 1), 0)
+	t.end()
+})
 
 test('mergeIds works', (t) => {
 	const a = {foo: 1, foos: {c: 3}}

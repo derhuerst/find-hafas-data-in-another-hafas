@@ -9,6 +9,7 @@ const createMatchStop = require('./match-stop-or-station')
 const createMatchStopover = require('./match-stopover')
 const createMergeStopover = require('./lib/merge-stopover')
 const createMergeStopovers = require('./lib/merge-stopovers')
+const createMergeId = require('./lib/merge-id')
 const mergeIds = require('./lib/merge-ids')
 const createMergeStop = require('./merge-stop')
 
@@ -28,11 +29,14 @@ const createMergeArrDep = (stopoversKey, A, B, opt = {}) => (arrDepA, arrDepB) =
 	}
 	const {
 		when: mergeWhenPreferB,
+		id: mergeIdPreferB,
 	} = {
 		when: true,
+		id: false,
 		...preferB,
 	}
 
+	const mergeId = createMergeId(mergeIdPreferB)
 	const mergeWhen = createMergeWhen({
 		cancelled: 'cancelled',
 		when: 'when',
@@ -44,13 +48,14 @@ const createMergeArrDep = (stopoversKey, A, B, opt = {}) => (arrDepA, arrDepB) =
 		prognosedPlatform: 'prognosedPlatform',
 		reachable: 'reachable',
 	}, mergeWhenPreferB)
-	const mergeStop = createMergeStop(A, B)
+	const mergeStop = createMergeStop(A, B, opt)
 	const mergeArr = createMergeArrWhen(mergeWhenPreferB)
 	const mergeDep = createMergeDepWhen(mergeWhenPreferB)
 
 	const res = {
 		...arrDepA,
 
+		tripId: mergeId(arrDepA.tripId, arrDepB.tripId),
 		tripIds: mergeIds('tripId', endpNameA, arrDepA, endpNameB, arrDepB),
 		line: {
 			...arrDepA.line,
