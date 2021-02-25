@@ -104,7 +104,8 @@ test('mergeStop works', (t) => {
 	const actualMergedStop = createMergeStop(DB, VBB)(dbStop, vbbStop)
 	const omit = require('lodash/omit')
 	t.deepEqual(omit(actualMergedStop, ['stops']), omit(mergedStop, ['stops']), 'merged stop is not equal')
-	// todo: t.deepEqual(actualMergedStop.stops, mergedStop.stops, 'merged.stops[] is not equal')
+	// todo: this fails because the stop name normalization is not good enough
+	// t.deepEqual(actualMergedStop.stops, mergedStop.stops, 'merged.stops[] is not equal')
 
 	const actualMergedStop2 = createMergeStop(DB, VBB, {
 		preferB: {id: true},

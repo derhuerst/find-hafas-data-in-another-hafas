@@ -1,11 +1,25 @@
 'use strict'
 
 const omit = require('lodash/omit')
+const createMatchStop = require('./match-stop-or-station')
 const mergeObjects = require('./lib/merge-objects')
 const createMergeId = require('./lib/merge-id')
 const mergeIds = require('./lib/merge-ids')
 
 const createMergeStop = (A, B, opt = {}) => {
+	const matchStop = createMatchStop(A, B)
+
+	const mergeSubStops = (stopsA, stopsB) => {
+		if (stopsB.length === 0) return stopsA
+		if (stopsA.length === 0) return stopsB
+
+		// todo: what about stops in B that are not in A?
+		return stopsA.map((stA) => {
+			const stB = stopsB.find(matchStop(stA))
+			return stB ? mergeStop(stA, stB) : stA
+		})
+	}
+
 	const mergeStop = (stopA, stopB) => {
 	const {
 		endpointName: endpNameA,
@@ -44,7 +58,8 @@ const createMergeStop = (A, B, opt = {}) => {
 		res.station = mergeStop(stopA.station, stopB.station)
 	}
 
-	// todo: stops[]
+	const subStops = mergeSubStops(stopA.stops || [], stopB.stops || [])
+	if (subStops.length > 0) res.stops = subStops
 
 	return res
 	}
