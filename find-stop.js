@@ -46,7 +46,7 @@ const createFindStop = (A, B) => {
 	}
 
 	const findStopById = async (stopA) => {
-		debug('findStopById', stopA.id, stopA.ids, stopA.name)
+		debug('findStopById', stopA.id, stopA.ids || {}, stopA.name)
 		const idsA = stopA.ids || {}
 		const idA = (
 			idsA[endpNameB] ||

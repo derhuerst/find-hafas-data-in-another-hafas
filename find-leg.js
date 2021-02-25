@@ -89,6 +89,7 @@ const createFindLeg = (A, B) => {
 		}
 
 		const findStop = createFindStop(A, B)
+		// todo: customisable concurrency? or even across all `findLegInAnotherHafas` calls?
 		const [firstStopB, lastStopB] = await Promise.all([
 			findStop(firstStopA),
 			findStop(lastStopA)
