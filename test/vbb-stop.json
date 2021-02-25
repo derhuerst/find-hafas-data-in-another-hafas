@@ -1,0 +1,62 @@
+{
+	"type": "station",
+	"id": "900000003201",
+	"name": "S+U Berlin Hauptbahnhof",
+	"location": {
+		"type": "location",
+		"id": "900003201",
+		"latitude": 52.525607,
+		"longitude": 13.369072
+	},
+	"stops": [
+		{
+			"type": "stop",
+			"id": "900000003200",
+			"name": "S+U Berlin Hauptbahnhof (tief)",
+			"location": {
+				"type": "location",
+				"id": "900003200",
+				"latitude": 52.525041,
+				"longitude": 13.369387
+			},
+			"products": {
+				"suburban": false,
+				"subway": false,
+				"tram": false,
+				"bus": true,
+				"ferry": false,
+				"express": true,
+				"regional": true
+			}
+		},
+		{
+			"type": "stop",
+			"id": "900000003205",
+			"name": "Washingtonplatz/Hauptbahnhof",
+			"location": {
+				"type": "location",
+				"id": "900003205",
+				"latitude": 52.523962,
+				"longitude": 13.370708
+			},
+			"products": {
+				"suburban": false,
+				"subway": false,
+				"tram": false,
+				"bus": true,
+				"ferry": false,
+				"express": false,
+				"regional": false
+			}
+		}
+	],
+	"products": {
+		"suburban": true,
+		"subway": true,
+		"tram": true,
+		"bus": true,
+		"ferry": false,
+		"express": true,
+		"regional": true
+	}
+}

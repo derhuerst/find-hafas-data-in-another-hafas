@@ -6,6 +6,9 @@ const createVbbHafas = require('vbb-hafas')
 const tape = require('tape')
 const tapePromise = require('tape-promise').default
 
+const dbStop = require('./db-stop.json')
+const vbbStop = require('./vbb-stop.json')
+const mergedStop = require('./merged-stop.json')
 const dbU7Dep = require('./db-u7-departure.json')
 const vbbU7Dep = require('./vbb-u7-departure.json')
 const mergedU7Dep = require('./merged-u7-departure.json')
@@ -23,6 +26,7 @@ const {
 
 const createMergeId = require('../lib/merge-id')
 const mergeIds = require('../lib/merge-ids')
+const createMergeStop = require('../merge-stop')
 const {createMergeDeparture} = require('../merge-arr-dep')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
@@ -87,7 +91,27 @@ test('mergeIds works', (t) => {
 	t.end()
 })
 
-// todo: test lib/merge-stop
+test('mergeStop works', (t) => {
+	const DB = {
+		endpointName: 'db',
+		normalizeStopName: normalizeDbStopName,
+	}
+	const VBB = {
+		endpointName: 'vbb',
+		normalizeStopName: normalizeVbbStopName,
+	}
+
+	const actualMergedStop = createMergeStop(DB, VBB)(dbStop, vbbStop)
+	const omit = require('lodash/omit')
+	t.deepEqual(omit(actualMergedStop, ['stops']), omit(mergedStop, ['stops']), 'merged stop is not equal')
+	// todo: t.deepEqual(actualMergedStop.stops, mergedStop.stops, 'merged.stops[] is not equal')
+
+	const actualMergedStop2 = createMergeStop(DB, VBB, {
+		preferB: {id: true},
+	})(dbStop, vbbStop)
+	t.equal(actualMergedStop2.id, vbbStop.id)
+	t.end()
+})
 
 test('mergeDeparture works', (t) => {
 	const mergeDep = createMergeDeparture({

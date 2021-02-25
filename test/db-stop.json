@@ -1,0 +1,535 @@
+{
+	"type": "station",
+	"id": "8011160",
+	"name": "Berlin Hbf",
+	"location": {
+		"type": "location",
+		"id": "8011160",
+		"latitude": 52.524924,
+		"longitude": 13.369629
+	},
+	"stops": [
+		{
+			"type": "stop",
+			"id": "730749",
+			"name": "Berlin Hauptbahnhof (S+U), Berlin",
+			"location": {
+				"type": "location",
+				"id": "730749",
+				"latitude": 52.526461,
+				"longitude": 13.369378
+			},
+			"products": {
+				"nationalExpress": true,
+				"national": true,
+				"regionalExp": true,
+				"regional": true,
+				"suburban": true,
+				"bus": true,
+				"ferry": false,
+				"subway": true,
+				"tram": true,
+				"taxi": false
+			},
+			"transitAuthority": "VBB",
+			"ids": {
+				"dhid": "de:11000:900003201",
+				"VBB": "900003201"
+			},
+			"facilities": {
+				"3SZentrale": "030/2971055",
+				"parkingLots": "available",
+				"bicycleParkingRacks": "available",
+				"localPublicTransport": "available",
+				"toilets": "available",
+				"lockers": "available",
+				"travelShop": "available",
+				"stepFreeAccess": "available",
+				"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+				"taxis": "available"
+			},
+			"reisezentrumOpeningHours": {
+				"Mo": "08:00-21:00",
+				"Di": "08:00-21:00",
+				"Mi": "08:00-21:00",
+				"Do": "08:00-21:00",
+				"Fr": "08:00-21:00",
+				"Sa": "08:00-21:00",
+				"So": "08:00-21:00",
+				"raw": [
+					[
+						"Mo",
+						"08:00-21:00"
+					],
+					[
+						"Di",
+						"08:00-21:00"
+					],
+					[
+						"Mi",
+						"08:00-21:00"
+					],
+					[
+						"Do",
+						"08:00-21:00"
+					],
+					[
+						"Fr",
+						"08:00-21:00"
+					],
+					[
+						"Sa",
+						"08:00-21:00"
+					],
+					[
+						"So",
+						"08:00-21:00"
+					]
+				]
+			}
+		},
+		{
+			"type": "stop",
+			"id": "8070952",
+			"name": "Berlin Hbf (Europaplatz)",
+			"location": {
+				"type": "location",
+				"id": "8070952",
+				"latitude": 52.525877,
+				"longitude": 13.369899
+			},
+			"products": {
+				"nationalExpress": true,
+				"national": true,
+				"regionalExp": true,
+				"regional": true,
+				"suburban": true,
+				"bus": true,
+				"ferry": false,
+				"subway": true,
+				"tram": true,
+				"taxi": false
+			},
+			"transitAuthority": "VBB",
+			"ids": {
+				"dhid": "de:11000:900003201",
+				"VBB": "900003201"
+			},
+			"facilities": {
+				"3SZentrale": "030/2971055",
+				"parkingLots": "available",
+				"bicycleParkingRacks": "available",
+				"localPublicTransport": "available",
+				"toilets": "available",
+				"lockers": "available",
+				"travelShop": "available",
+				"stepFreeAccess": "available",
+				"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+				"taxis": "available"
+			},
+			"reisezentrumOpeningHours": {
+				"Mo": "08:00-21:00",
+				"Di": "08:00-21:00",
+				"Mi": "08:00-21:00",
+				"Do": "08:00-21:00",
+				"Fr": "08:00-21:00",
+				"Sa": "08:00-21:00",
+				"So": "08:00-21:00",
+				"raw": [
+					[
+						"Mo",
+						"08:00-21:00"
+					],
+					[
+						"Di",
+						"08:00-21:00"
+					],
+					[
+						"Mi",
+						"08:00-21:00"
+					],
+					[
+						"Do",
+						"08:00-21:00"
+					],
+					[
+						"Fr",
+						"08:00-21:00"
+					],
+					[
+						"Sa",
+						"08:00-21:00"
+					],
+					[
+						"So",
+						"08:00-21:00"
+					]
+				]
+			}
+		},
+		{
+			"type": "stop",
+			"id": "8071068",
+			"name": "Berlin Hbf (Washingtonplatz)",
+			"location": {
+				"type": "location",
+				"id": "8071068",
+				"latitude": 52.523297,
+				"longitude": 13.370178
+			},
+			"products": {
+				"nationalExpress": true,
+				"national": true,
+				"regionalExp": true,
+				"regional": true,
+				"suburban": true,
+				"bus": true,
+				"ferry": false,
+				"subway": true,
+				"tram": true,
+				"taxi": false
+			},
+			"transitAuthority": "VBB",
+			"ids": {
+				"dhid": "de:11000:900003205",
+				"VBB": "900003201"
+			},
+			"facilities": {
+				"3SZentrale": "030/2971055",
+				"parkingLots": "available",
+				"bicycleParkingRacks": "available",
+				"localPublicTransport": "available",
+				"toilets": "available",
+				"lockers": "available",
+				"travelShop": "available",
+				"stepFreeAccess": "available",
+				"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+				"taxis": "available"
+			}
+		},
+		{
+			"type": "stop",
+			"id": "8089021",
+			"name": "Berlin Hbf (S-Bahn)",
+			"location": {
+				"type": "location",
+				"id": "8089021",
+				"latitude": 52.525167,
+				"longitude": 13.369279
+			},
+			"products": {
+				"nationalExpress": true,
+				"national": true,
+				"regionalExp": true,
+				"regional": true,
+				"suburban": true,
+				"bus": true,
+				"ferry": false,
+				"subway": true,
+				"tram": true,
+				"taxi": false
+			},
+			"transitAuthority": "VBB",
+			"ids": {
+				"dhid": "de:11000:900003201",
+				"VBB": "900003201"
+			},
+			"facilities": {
+				"3SZentrale": "030/2971055",
+				"parkingLots": "available",
+				"bicycleParkingRacks": "available",
+				"localPublicTransport": "available",
+				"toilets": "available",
+				"lockers": "available",
+				"travelShop": "available",
+				"stepFreeAccess": "available",
+				"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+				"taxis": "available"
+			},
+			"reisezentrumOpeningHours": {
+				"Mo": "08:00-21:00",
+				"Di": "08:00-21:00",
+				"Mi": "08:00-21:00",
+				"Do": "08:00-21:00",
+				"Fr": "08:00-21:00",
+				"Sa": "08:00-21:00",
+				"So": "08:00-21:00",
+				"raw": [
+					[
+						"Mo",
+						"08:00-21:00"
+					],
+					[
+						"Di",
+						"08:00-21:00"
+					],
+					[
+						"Mi",
+						"08:00-21:00"
+					],
+					[
+						"Do",
+						"08:00-21:00"
+					],
+					[
+						"Fr",
+						"08:00-21:00"
+					],
+					[
+						"Sa",
+						"08:00-21:00"
+					],
+					[
+						"So",
+						"08:00-21:00"
+					]
+				]
+			}
+		},
+		{
+			"type": "stop",
+			"id": "8098160",
+			"name": "Berlin Hbf (tief)",
+			"location": {
+				"type": "location",
+				"id": "8098160",
+				"latitude": 52.52585,
+				"longitude": 13.368892
+			},
+			"products": {
+				"nationalExpress": true,
+				"national": true,
+				"regionalExp": true,
+				"regional": true,
+				"suburban": true,
+				"bus": true,
+				"ferry": false,
+				"subway": true,
+				"tram": true,
+				"taxi": false
+			},
+			"transitAuthority": "VBB",
+			"ids": {
+				"dhid": "de:11000:900003200",
+				"VBB": "900003200"
+			},
+			"facilities": {
+				"3SZentrale": "030/2971055",
+				"parkingLots": "available",
+				"bicycleParkingRacks": "available",
+				"localPublicTransport": "available",
+				"toilets": "available",
+				"lockers": "available",
+				"travelShop": "available",
+				"stepFreeAccess": "available",
+				"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+				"taxis": "available"
+			},
+			"reisezentrumOpeningHours": {
+				"Mo": "08:00-21:00",
+				"Di": "08:00-21:00",
+				"Mi": "08:00-21:00",
+				"Do": "08:00-21:00",
+				"Fr": "08:00-21:00",
+				"Sa": "08:00-21:00",
+				"So": "08:00-21:00",
+				"raw": [
+					[
+						"Mo",
+						"08:00-21:00"
+					],
+					[
+						"Di",
+						"08:00-21:00"
+					],
+					[
+						"Mi",
+						"08:00-21:00"
+					],
+					[
+						"Do",
+						"08:00-21:00"
+					],
+					[
+						"Fr",
+						"08:00-21:00"
+					],
+					[
+						"Sa",
+						"08:00-21:00"
+					],
+					[
+						"So",
+						"08:00-21:00"
+					]
+				]
+			}
+		}
+	],
+	"products": {
+		"nationalExpress": true,
+		"national": true,
+		"regionalExp": true,
+		"regional": true,
+		"suburban": true,
+		"bus": true,
+		"ferry": false,
+		"subway": true,
+		"tram": true,
+		"taxi": false
+	},
+	"entrances": [
+		{
+			"type": "location",
+			"id": "608011160",
+			"latitude": 52.526254,
+			"longitude": 13.369207
+		},
+		{
+			"type": "location",
+			"id": "628011160",
+			"latitude": 52.525841,
+			"longitude": 13.369486
+		},
+		{
+			"type": "location",
+			"id": "618011160",
+			"latitude": 52.524169,
+			"longitude": 13.369728
+		},
+		{
+			"type": "location",
+			"id": "600730749",
+			"latitude": 52.526398,
+			"longitude": 13.369135
+		},
+		{
+			"type": "location",
+			"id": "620730749",
+			"latitude": 52.526677,
+			"longitude": 13.370465
+		},
+		{
+			"type": "location",
+			"id": "610730749",
+			"latitude": 52.526857,
+			"longitude": 13.370304
+		},
+		{
+			"type": "location",
+			"id": "8098160",
+			"latitude": 52.52585,
+			"longitude": 13.368892
+		},
+		{
+			"type": "location",
+			"id": "608098160",
+			"latitude": 52.526254,
+			"longitude": 13.369207
+		},
+		{
+			"type": "location",
+			"id": "628098160",
+			"latitude": 52.525841,
+			"longitude": 13.369486
+		},
+		{
+			"type": "location",
+			"id": "618098160",
+			"latitude": 52.524169,
+			"longitude": 13.369728
+		},
+		{
+			"type": "location",
+			"id": "8089021",
+			"latitude": 52.525167,
+			"longitude": 13.369279
+		},
+		{
+			"type": "location",
+			"id": "608089021",
+			"latitude": 52.526254,
+			"longitude": 13.369207
+		},
+		{
+			"type": "location",
+			"id": "628089021",
+			"latitude": 52.525841,
+			"longitude": 13.369486
+		},
+		{
+			"type": "location",
+			"id": "618089021",
+			"latitude": 52.524169,
+			"longitude": 13.369728
+		},
+		{
+			"type": "location",
+			"id": "8071068",
+			"latitude": 52.523297,
+			"longitude": 13.370178
+		},
+		{
+			"type": "location",
+			"id": "8070952",
+			"latitude": 52.525877,
+			"longitude": 13.369899
+		}
+	],
+	"transitAuthority": "VBB",
+	"ids": {
+		"dhid": "de:11000:900003201",
+		"VBB": "900003201"
+	},
+	"facilities": {
+		"3SZentrale": "030/2971055",
+		"parkingLots": "available",
+		"bicycleParkingRacks": "available",
+		"localPublicTransport": "available",
+		"toilets": "available",
+		"lockers": "available",
+		"travelShop": "available",
+		"stepFreeAccess": "available",
+		"boardingAid": "ja, um voranmeldung unter 01806 512 512* wird gebeten",
+		"taxis": "available"
+	},
+	"reisezentrumOpeningHours": {
+		"Mo": "08:00-21:00",
+		"Di": "08:00-21:00",
+		"Mi": "08:00-21:00",
+		"Do": "08:00-21:00",
+		"Fr": "08:00-21:00",
+		"Sa": "08:00-21:00",
+		"So": "08:00-21:00",
+		"raw": [
+			[
+				"Mo",
+				"08:00-21:00"
+			],
+			[
+				"Di",
+				"08:00-21:00"
+			],
+			[
+				"Mi",
+				"08:00-21:00"
+			],
+			[
+				"Do",
+				"08:00-21:00"
+			],
+			[
+				"Fr",
+				"08:00-21:00"
+			],
+			[
+				"Sa",
+				"08:00-21:00"
+			],
+			[
+				"So",
+				"08:00-21:00"
+			]
+		]
+	}
+}
