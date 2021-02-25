@@ -68,7 +68,9 @@ const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
 		remarks: [
 			...legA.remarks || [],
 			...legB.remarks || []
-		]
+		],
+
+		polyline: legB.polyline || legA.polyline || null,
 
 		// todo: merge alternatives[]
 	}
