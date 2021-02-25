@@ -1,6 +1,7 @@
 'use strict'
 
 const omit = require('lodash/omit')
+const mergeObjects = require('./lib/merge-objects')
 const createMergeId = require('./lib/merge-id')
 const mergeIds = require('./lib/merge-ids')
 
@@ -33,8 +34,8 @@ const createMergeStop = (A, B, opt = {}) => {
 	if (!stopA) return {...stopB, id: null, ids}
 
 	const res = {
-		// todo: additional stopB props?
-		...omit(stopA, ['station']),
+		...mergeObjects(stopA, stopB),
+
 		id: mergeId(stopA.id, stopB.id),
 		ids,
 	}

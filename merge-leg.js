@@ -2,6 +2,7 @@
 
 const createMatchStop = require('./match-stop-or-station')
 const createMatchStopover = require('./match-stopover')
+const mergeObjects = require('./lib/merge-objects')
 const createMergeStopovers = require('./lib/merge-stopovers')
 const {
 	createMergeArrival,
@@ -47,7 +48,7 @@ const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
 	const mergeStopovers = createMergeStopovers(matchStopover, mergeStopover, A, B)
 
 	return {
-		...legA,
+		...mergeObjects(legA, legB),
 
 		tripId: mergeId(legA.tripId, legB.tripId),
 		tripIds: mergeIds('tripId', endpNameA, legA, endpNameB, legB),
@@ -69,7 +70,7 @@ const createMergeLeg = (A, B, opt = {}) => (legA, legB) => {
 			...legB.remarks || []
 		]
 
-		// todo: additional `legB` fields?
+		// todo: merge alternatives[]
 	}
 }
 

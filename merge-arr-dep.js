@@ -7,6 +7,7 @@ const {
 } = require('./lib/merge-when')
 const createMatchStop = require('./match-stop-or-station')
 const createMatchStopover = require('./match-stopover')
+const mergeObjects = require('./lib/merge-objects')
 const createMergeStopover = require('./lib/merge-stopover')
 const createMergeStopovers = require('./lib/merge-stopovers')
 const createMergeId = require('./lib/merge-id')
@@ -53,7 +54,7 @@ const createMergeArrDep = (stopoversKey, A, B, opt = {}) => (arrDepA, arrDepB) =
 	const mergeDep = createMergeDepWhen(mergeWhenPreferB)
 
 	const res = {
-		...arrDepA,
+		...mergeObjects(arrDepA, arrDepB),
 
 		tripId: mergeId(arrDepA.tripId, arrDepB.tripId),
 		tripIds: mergeIds('tripId', endpNameA, arrDepA, endpNameB, arrDepB),
@@ -70,8 +71,6 @@ const createMergeArrDep = (stopoversKey, A, B, opt = {}) => (arrDepA, arrDepB) =
 			...arrDepA.remarks || [],
 			...arrDepB.remarks || []
 		]
-
-		// todo: additional `arrDepB` fields?
 	}
 
 	const matchStop = createMatchStop(A, B)
