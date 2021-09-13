@@ -56,6 +56,7 @@ const createFindArrDep = (method, A, B) => {
 			}
 			if (!depB.plannedWhen || depA.plannedWhen !== depB.plannedWhen) {
 				debug('matching date/time failed', depA.plannedWhen, depB.plannedWhen)
+				continue
 			}
 			return depB
 		}
