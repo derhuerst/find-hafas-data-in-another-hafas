@@ -159,14 +159,13 @@ const vbbEndpoint = {
 test('findDeparture works', async (t) => {
 	const [dbDep] = await db.departures(potsdamerPlatz, {
 		when: WHEN,
-		results: 1, stopovers: true,
+		results: 1,
 	})
 
 	const findDeparture = createFindDeparture(dbEndpoint, vbbEndpoint)
 	const vbbDep = await findDeparture(dbDep)
-	t.ok(vbbDep, 'matching worked')
+	t.ok(vbbDep, `matching didn't work`)
 
-	// todo
 	const vbbLineName = normalizeVbbLineName(vbbDep.line.name, vbbDep.line)
 	const dbLineName = normalizeDbLineName(dbDep.line.name, dbDep.line)
 	t.equal(vbbLineName, dbLineName, 'line names are equal')
@@ -177,7 +176,8 @@ test('findDeparture works', async (t) => {
 	t.end()
 })
 
-test('findLegInAnother works', async (t) => {
+// The DB endpoint (currently) doesn't support `stopovers: true`.
+test.skip('findLegInAnother works', async (t) => {
 	const res = await db.journeys(potsdamerPlatz, südkreuz, {
 		results: 1, stopovers: true, tickets: false
 	})
