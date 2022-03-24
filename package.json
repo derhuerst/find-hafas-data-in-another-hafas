@@ -29,10 +29,10 @@
 	"bugs": "https://github.com/derhuerst/find-hafas-data-in-another-hafas/issues",
 	"license": "ISC",
 	"engines": {
-		"node": ">=10"
+		"node": ">=16"
 	},
 	"dependencies": {
-		"@derhuerst/stable-public-transport-ids": "^1.2.0",
+		"@derhuerst/stable-public-transport-ids": "^2.1.0",
 		"@turf/distance": "^6.0.1",
 		"@turf/helpers": "^6.1.4",
 		"debug": "^4.1.0",
