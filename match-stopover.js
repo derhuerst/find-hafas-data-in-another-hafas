@@ -20,7 +20,7 @@ const createMatchStopover = (matchStopOrStation) => {
 				(depB !== null && depB === depA) ||
 				(arrB !== null && arrB === arrA)
 			) return true
-			debug('matching date/time failed', arrA, depA, arrB, depB)
+			debug('matching date/time failed', {arrA, depA, arrB, depB})
 			return false
 		}
 		return matchStopover
