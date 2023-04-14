@@ -1,7 +1,7 @@
 {
 	"name": "find-hafas-data-in-another-hafas",
 	"description": "Find data from one HAFAS endpoint in another one.",
-	"version": "4.3.1",
+	"version": "4.4.0",
 	"main": "index.js",
 	"files": [
 		"index.js",
