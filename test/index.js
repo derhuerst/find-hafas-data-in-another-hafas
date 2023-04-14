@@ -28,6 +28,7 @@ const createMergeId = require('../lib/merge-id')
 const mergeIds = require('../lib/merge-ids')
 const createMergeStop = require('../merge-stop')
 const {createMergeDeparture} = require('../merge-arr-dep')
+const createMergeStopover = require('../lib/merge-stopover')
 const createMergeLeg = require('../merge-leg')
 const createFindLeg = require('../find-leg')
 const {createFindDeparture} = require('../find-arr-dep')
@@ -117,6 +118,50 @@ test('mergeDeparture works', (t) => {
 	})
 	const actualMergedU7Dep = mergeDep(dbU7Dep, vbbU7Dep)
 	t.deepEqual(actualMergedU7Dep, mergedU7Dep, 'merged departure is equal')
+	t.end()
+})
+
+test('mergeStopover carries over additional fields', (t) => {
+	const someStop = Symbol('some-stop')
+	const someArr = Symbol('some-arrival')
+	const someDep = Symbol('some-departure')
+	const mergeStop = () => ({mergedStop: someStop})
+	const mergeArr = () => ({mergedArr: someArr})
+	const mergeDep = () => ({mergedDep: someDep})
+	const mergeStopover = createMergeStopover(mergeStop, mergeArr, mergeDep, {
+		endpointName: 'db',
+		normalizeStopName: normalizeDbStopName,
+		mergeStopoverAdditionalFields: ['someDbField', 'someCommonField'],
+	}, {
+		endpointName: 'vbb',
+		normalizeStopName: normalizeVbbStopName,
+		mergeStopoverAdditionalFields: ['someCommonField', 'someVbbField'],
+	})
+
+	const someDbValue = {}
+	const someVbbValue = Symbol('foo')
+	const fromDbStopover = Symbol('from-db-stopover')
+	const fromVbbStopover = Symbol('from-vbb-stopover')
+
+	const dbStopover = {
+		someCommonField: fromDbStopover,
+	}
+	Object.defineProperty(dbStopover, 'someDbField', {value: someDbValue}) // non-enumerable
+	const vbbStopover = {
+		someCommonField: fromVbbStopover,
+	}
+	Object.defineProperty(vbbStopover, 'someVbbField', {value: someVbbValue}) // non-enumerable
+
+	const actualMergedStopover = mergeStopover(dbStopover, vbbStopover)
+	t.deepEqual(actualMergedStopover, {
+		stop: {mergedStop: someStop},
+		mergedArr: someArr,
+		mergedDep: someDep,
+
+		someDbField: someDbValue,
+		someVbbField: someVbbValue,
+		someCommonField: fromVbbStopover,
+	}, 'merged departure is equal')
 	t.end()
 })
 

@@ -107,6 +107,9 @@ All of these functions expect the two endpoints to be specified as follows:
 	// The results will be used to match stops/lines across endpoints!
 	normalizeStopName: name => normalizedName,
 	normalizeLineName: name => normalizedName,
+
+	// additional fields to copy over from a stopover from the respective endpoint (optional)
+	mergeStopoverAdditionalFields: ['myCustomField'],
 }
 ```
 
